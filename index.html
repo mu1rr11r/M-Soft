@@ -4,979 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M Soft - شركة برمجة وتطوير مواقع</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#2D5BFF;--primary-light:#5B7FFF;--secondary:#FF6B35;--accent:#00C9A7;--warm:#FFB347;--rose:#FF7EB3;--code-bg:#0D1117;--code-green:#7EE787;--code-blue:#79C0FF;--code-orange:#FFA657;--code-purple:#D2A8FF;--code-comment:#8B949E;--code-string:#A5D6FF;--bg:#F5F5F0;--card:#FFFFFF;--text:#1A1A2E;--text-gray:#555B6E;--text-light:#8A8FA0;--border:rgba(0,0,0,0.06)}
+        html{scroll-behavior:smooth}
+        body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+        ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
 
-        :root {
-            --primary: #2D5BFF;
-            --primary-light: #5B7FFF;
-            --secondary: #FF6B35;
-            --accent: #00C9A7;
-            --warm: #FFB347;
-            --rose: #FF7EB3;
-            --bg: #F5F5F0;
-            --bg-alt: #EDEDE8;
-            --card: #FFFFFF;
-            --text: #1A1A2E;
-            --text-gray: #555B6E;
-            --text-light: #8A8FA0;
-            --border: rgba(0,0,0,0.06);
-        }
+        .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;transition:all .4s;background:transparent}
+        .navbar.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);box-shadow:0 1px 20px rgba(0,0,0,.06);padding:10px 40px}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:48px;height:48px;background:var(--primary);border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:19px;font-family:'Fira Code';transition:transform .3s;box-shadow:0 4px 15px rgba(45,91,255,.25);position:relative}
+        .logo-icon::after{content:'</>';position:absolute;bottom:-2px;right:-2px;font-size:7px;background:var(--code-bg);color:var(--code-green);padding:1px 4px;border-radius:3px;font-family:'Fira Code'}
+        .nav-logo:hover .logo-icon{transform:scale(1.08)}
+        .logo-text{font-size:22px;font-weight:900;color:var(--text)}.logo-text span{color:var(--primary)}
+        .nav-links{display:flex;gap:30px;list-style:none;align-items:center}
+        .nav-links a{text-decoration:none;color:var(--text);font-weight:600;font-size:15px;position:relative;padding:5px 0;transition:color .3s}
+        .nav-links a::after{content:'';position:absolute;bottom:-2px;right:0;width:0;height:2px;border-radius:10px;background:var(--primary);transition:width .3s}
+        .nav-links a:hover{color:var(--primary)}.nav-links a:hover::after{width:100%}
+        .nav-cta{background:var(--primary)!important;color:#fff!important;padding:10px 26px!important;border-radius:10px!important;font-weight:700!important;transition:all .3s!important}
+        .nav-cta:hover{background:var(--primary-light)!important;transform:translateY(-2px)!important}.nav-cta::after{display:none!important}
+        .menu-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer}
 
-        html { scroll-behavior: smooth; }
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding:120px 40px 80px;overflow:hidden;background:var(--code-bg)}
+        .hero-bg-shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+        .floating-shape{position:absolute;border-radius:50%;animation:floatShape 10s ease-in-out infinite;filter:blur(80px)}
+        .shape-1{width:500px;height:500px;top:-150px;left:-150px;background:rgba(45,91,255,.15)}
+        .shape-2{width:400px;height:400px;bottom:-100px;right:-100px;background:rgba(255,107,53,.1);animation-delay:-4s}
+        .shape-3{width:350px;height:350px;top:40%;left:60%;background:rgba(0,201,167,.08);animation-delay:-7s}
+        @keyframes floatShape{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-30px) scale(1.05)}66%{transform:translate(-15px,15px) scale(.95)}}
 
-        body {
-            font-family: 'Cairo', 'Tajawal', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-        }
+        .code-rain{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.06}
+        .code-rain-line{position:absolute;font-family:'Fira Code',monospace;font-size:12px;color:var(--code-green);white-space:nowrap;animation:codeFall linear infinite;writing-mode:vertical-rl}
+        @keyframes codeFall{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        .hero-content{max-width:720px;text-align:center;position:relative;z-index:2}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(45,91,255,.15);border:1px solid rgba(45,91,255,.25);padding:8px 20px;border-radius:50px;font-size:14px;font-weight:600;color:var(--code-blue);margin-bottom:25px;animation:fadeInUp .8s ease forwards;font-family:'Fira Code',monospace}
+        .hero h1{font-size:clamp(34px,5.5vw,58px);font-weight:900;line-height:1.25;margin-bottom:20px;animation:fadeInUp .8s ease .2s forwards;opacity:0;color:#fff}
+        .hero h1 .highlight{color:var(--code-green);position:relative}
+        .hero h1 .highlight::after{content:'_';animation:blink 1s step-end infinite}
+        @keyframes blink{50%{opacity:0}}
+        .hero p{font-size:17px;color:var(--code-comment);line-height:1.9;margin-bottom:35px;animation:fadeInUp .8s ease .4s forwards;opacity:0}
+        .hero-buttons{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .8s ease .6s forwards;opacity:0}
+        .btn-primary{background:var(--primary);color:#fff;padding:14px 34px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(45,91,255,.3);display:inline-flex;align-items:center;gap:10px;font-family:inherit}
+        .btn-primary:hover{background:var(--primary-light);transform:translateY(-3px);box-shadow:0 8px 30px rgba(45,91,255,.45)}
+        .btn-secondary{background:transparent;color:var(--code-green);padding:14px 34px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;border:1px solid rgba(126,231,135,.3);cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px;font-family:'Fira Code',monospace}
+        .btn-secondary:hover{background:rgba(126,231,135,.1);border-color:var(--code-green);transform:translateY(-3px)}
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            padding: 15px 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-        .navbar.scrolled {
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 1px 20px rgba(0,0,0,0.06);
-            padding: 10px 40px;
-        }
-        .nav-logo {
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 48px; height: 48px;
-            background: var(--primary);
-            border-radius: 13px; display: flex; align-items: center; justify-content: center;
-            color: #fff; font-weight: 900; font-size: 19px; font-family: 'Tajawal';
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 15px rgba(45,91,255,0.25);
-        }
-        .nav-logo:hover .logo-icon { transform: scale(1.08); }
-        .logo-text { font-size: 22px; font-weight: 900; color: var(--text); }
-        .logo-text span { color: var(--primary); }
+        .hero-3d{perspective:1000px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none}
+        .cube-wrapper{width:320px;height:320px;transform-style:preserve-3d;animation:rotateCube 20s linear infinite}
+        @keyframes rotateCube{0%{transform:rotateX(0) rotateY(0)}100%{transform:rotateX(360deg) rotateY(360deg)}}
+        .cube-face{position:absolute;width:320px;height:320px;border:1px solid rgba(45,91,255,.1);background:rgba(13,17,23,.5);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;border-radius:16px}
+        .cube-face.front{transform:translateZ(160px)}.cube-face.back{transform:rotateY(180deg) translateZ(160px)}.cube-face.right{transform:rotateY(90deg) translateZ(160px)}.cube-face.left{transform:rotateY(-90deg) translateZ(160px)}.cube-face.top{transform:rotateX(90deg) translateZ(160px)}.cube-face.bottom{transform:rotateX(-90deg) translateZ(160px)}
+        .cube-code{font-family:'Fira Code',monospace;font-size:14px;color:var(--code-green);opacity:.2;text-align:center;line-height:1.6;padding:20px}
 
-        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
-        .nav-links a {
-            text-decoration: none; color: var(--text);
-            font-weight: 600; font-size: 15px; position: relative;
-            padding: 5px 0; transition: color 0.3s;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -2px; right: 0;
-            width: 0; height: 2px; border-radius: 10px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-links a:hover::after { width: 100%; }
+        .floating-code{position:absolute;z-index:1;pointer-events:none;font-family:'Fira Code',monospace;background:rgba(13,17,23,.7);border:1px solid rgba(126,231,135,.1);border-radius:10px;padding:12px 16px;font-size:11px;line-height:1.5;backdrop-filter:blur(5px);animation:floatCode 8s ease-in-out infinite;transform-style:preserve-3d}
+        .floating-code .code-keyword{color:var(--code-purple)}.floating-code .code-func{color:var(--code-blue)}.floating-code .code-string{color:var(--code-string)}.floating-code .code-comment{color:var(--code-comment)}.floating-code .code-var{color:var(--code-orange)}.floating-code .code-tag{color:var(--code-green)}
+        @keyframes floatCode{0%,100%{transform:translateY(0) rotateX(0) rotateY(0)}25%{transform:translateY(-20px) rotateX(3deg) rotateY(-2deg)}50%{transform:translateY(-10px) rotateX(-2deg) rotateY(3deg)}75%{transform:translateY(-25px) rotateX(1deg) rotateY(-1deg)}}
+        .code-block-1{top:15%;right:5%;animation-delay:0s}.code-block-2{bottom:20%;left:3%;animation-delay:-3s}.code-block-3{top:55%;right:8%;animation-delay:-5s;font-size:10px}.code-block-4{top:25%;left:6%;animation-delay:-2s}
 
-        .nav-cta {
-            background: var(--primary);
-            color: #fff !important; padding: 10px 26px !important;
-            border-radius: 10px; font-weight: 700 !important;
-            transition: all 0.3s !important;
-        }
-        .nav-cta:hover {
-            background: var(--primary-light) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(45,91,255,0.3) !important;
-        }
-        .nav-cta::after { display: none !important; }
+        .orbit-container{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:600px;height:600px;z-index:1;pointer-events:none;perspective:800px}
+        .orbit-ring{position:absolute;inset:0;border:1px solid rgba(45,91,255,.05);border-radius:50%;animation:orbitSpin 30s linear infinite;transform-style:preserve-3d}
+        .orbit-ring:nth-child(2){inset:80px;animation-direction:reverse;animation-duration:25s;border-color:rgba(0,201,167,.05)}
+        .orbit-ring:nth-child(3){inset:160px;animation-duration:20s;border-color:rgba(255,107,53,.05)}
+        @keyframes orbitSpin{from{transform:rotateX(60deg) rotateZ(0)}to{transform:rotateX(60deg) rotateZ(360deg)}}
+        .orbit-icon{position:absolute;width:36px;height:36px;background:rgba(13,17,23,.8);border:1px solid rgba(45,91,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;backdrop-filter:blur(5px)}
 
-        .menu-toggle {
-            display: none; background: none; border: none;
-            color: var(--text); cursor: pointer;
-        }
+        section{padding:100px 40px;position:relative}
+        .section-header{text-align:center;margin-bottom:60px}
+        .section-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(45,91,255,.06);padding:6px 18px;border-radius:50px;font-size:14px;font-weight:600;color:var(--primary);margin-bottom:15px}
+        .section-title{font-size:clamp(28px,4vw,40px);font-weight:900;margin-bottom:15px}
+        .section-desc{font-size:16px;color:var(--text-gray);max-width:560px;margin:0 auto;line-height:1.8}
 
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center;
-            justify-content: center; position: relative;
-            padding: 120px 40px 80px;
-            overflow: hidden;
-            background: var(--bg);
-        }
+        .code-snippet-deco{background:var(--code-bg);border-radius:10px;padding:14px 18px;font-family:'Fira Code',monospace;font-size:12px;line-height:1.6;border:1px solid rgba(126,231,135,.08);overflow:hidden;position:relative}
+        .code-snippet-deco .dots{display:flex;gap:5px;margin-bottom:10px}
+        .code-snippet-deco .dot{width:8px;height:8px;border-radius:50%}
+        .code-snippet-deco .dot:nth-child(1){background:#FF5F57}.code-snippet-deco .dot:nth-child(2){background:#FFBD2E}.code-snippet-deco .dot:nth-child(3){background:#28CA41}
+        .ck{color:var(--code-purple)}.cf{color:var(--code-blue)}.cs{color:var(--code-string)}.cc{color:var(--code-comment)}.cv{color:var(--code-orange)}.cg{color:var(--code-green)}.ct{color:var(--code-green)}
 
-        .hero-bg-shapes {
-            position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-        }
-        .floating-shape {
-            position: absolute; border-radius: 50%;
-            animation: floatShape 10s ease-in-out infinite;
-            filter: blur(60px);
-        }
-        .shape-1 {
-            width: 500px; height: 500px; top: -150px; left: -150px;
-            background: rgba(45,91,255,0.07);
-        }
-        .shape-2 {
-            width: 400px; height: 400px; bottom: -100px; right: -100px;
-            background: rgba(255,107,53,0.06);
-            animation-delay: -4s;
-        }
-        .shape-3 {
-            width: 350px; height: 350px; top: 40%; left: 60%;
-            background: rgba(0,201,167,0.05);
-            animation-delay: -7s;
-        }
+        .about{background:var(--card)}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1200px;margin:0 auto;align-items:center}
+        .about-visual{perspective:1200px;position:relative}
+        .about-3d-card{background:var(--primary);border-radius:20px;padding:45px;color:#fff;position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .4s;min-height:380px;display:flex;flex-direction:column;justify-content:center}
+        .about-3d-card::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 60%)}
+        .about-3d-card:hover{transform:rotateY(-5deg) rotateX(4deg)}
+        .about-card-number{font-size:72px;font-weight:900;opacity:.15;position:absolute;top:20px;right:30px;font-family:'Fira Code',monospace}
+        .about-card-icon{margin-bottom:18px}.about-card-icon i{width:46px;height:46px}
+        .about-3d-card h3{font-size:22px;font-weight:800;margin-bottom:12px}.about-3d-card p{font-size:15px;line-height:1.8;opacity:.9}
+        .about-floating-code{position:absolute;top:-20px;left:-30px;z-index:5;animation:floatCode 7s ease-in-out infinite;transform-style:preserve-3d}
+        .about-text h2{font-size:34px;font-weight:900;margin-bottom:18px}.about-text h2 span{color:var(--primary)}
+        .about-text p{font-size:15px;line-height:2;color:var(--text-gray);margin-bottom:22px}
+        .about-features{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .about-feature{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
+        .about-feature i{width:22px;height:22px;color:var(--accent);flex-shrink:0}
 
-        @keyframes floatShape {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(20px, -30px) scale(1.05); }
-            66% { transform: translate(-15px, 15px) scale(0.95); }
-        }
+        .services{background:var(--bg)}.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+        .service-card{background:var(--card);border-radius:16px;padding:32px;position:relative;overflow:hidden;transition:all .4s;transform-style:preserve-3d;cursor:pointer;border:1px solid var(--border)}
+        .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:height .4s}
+        .service-card:nth-child(1)::before{background:var(--primary)}.service-card:nth-child(2)::before{background:var(--secondary)}.service-card:nth-child(3)::before{background:var(--accent)}.service-card:nth-child(4)::before{background:var(--warm)}.service-card:nth-child(5)::before{background:var(--rose)}.service-card:nth-child(6)::before{background:#5B7FFF}
+        .service-card:hover{transform:translateY(-8px) rotateX(4deg) rotateY(-2deg);box-shadow:0 20px 40px rgba(0,0,0,.06);border-color:transparent}
+        .service-card:hover::before{height:4px}
+        .service-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+        .service-card:nth-child(1) .service-icon{background:rgba(45,91,255,.08);color:var(--primary)}.service-card:nth-child(2) .service-icon{background:rgba(255,107,53,.08);color:var(--secondary)}.service-card:nth-child(3) .service-icon{background:rgba(0,201,167,.08);color:var(--accent)}.service-card:nth-child(4) .service-icon{background:rgba(255,179,71,.1);color:#D4880F}.service-card:nth-child(5) .service-icon{background:rgba(255,126,179,.08);color:var(--rose)}.service-card:nth-child(6) .service-icon{background:rgba(91,127,255,.08);color:#5B7FFF}
+        .service-icon i{width:26px;height:26px}.service-card h3{font-size:19px;font-weight:800;margin-bottom:8px}.service-card p{font-size:14px;line-height:1.8;color:var(--text-gray)}
+        .service-code-hint{margin-top:12px;font-family:'Fira Code',monospace;font-size:10px;color:var(--code-comment);opacity:0;transform:translateY(10px);transition:all .3s}
+        .service-card:hover .service-code-hint{opacity:1;transform:translateY(0)}
 
-        .hero-content {
-            max-width: 720px; text-align: center; position: relative; z-index: 2;
-        }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(45,91,255,0.06); border: 1px solid rgba(45,91,255,0.1);
-            padding: 8px 20px; border-radius: 50px;
-            font-size: 14px; font-weight: 600; color: var(--primary);
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease forwards;
-        }
+        .portfolio{background:var(--card)}.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px;max-width:1200px;margin:0 auto}
+        .project-card{border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);transition:all .4s;transform-style:preserve-3d}
+        .project-card:hover{transform:translateY(-8px) rotateX(3deg);box-shadow:0 25px 50px rgba(0,0,0,.08);border-color:transparent}
+        .project-mockup{position:relative;overflow:hidden;height:240px;background:#f0f0ec}
+        .mockup-toolbar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#e8e8e3;border-bottom:1px solid rgba(0,0,0,.06)}
+        .mockup-dot{width:8px;height:8px;border-radius:50%}.mockup-dot:nth-child(1){background:#FF5F57}.mockup-dot:nth-child(2){background:#FFBD2E}.mockup-dot:nth-child(3){background:#28CA41}
+        .mockup-url{flex:1;margin-right:10px;background:#fff;border-radius:4px;padding:3px 10px;font-size:10px;color:var(--text-gray);font-family:'Fira Code',monospace;direction:ltr;text-align:left}
+        .mockup-body{padding:12px;height:calc(100% - 34px);overflow:hidden}
+        .mock-ecommerce .mockup-body{display:grid;grid-template-columns:180px 1fr;gap:10px}
+        .mock-sidebar{background:var(--primary);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px}.mock-sidebar-item{height:6px;background:rgba(255,255,255,.25);border-radius:3px}.mock-sidebar-item.active{background:rgba(255,255,255,.5)}
+        .mock-products{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.mock-product{background:#fff;border-radius:6px;padding:5px;display:flex;flex-direction:column;gap:4px}.mock-product-img{height:45px;background:#e8e8e3;border-radius:4px}.mock-product-title{height:4px;background:#ddd;border-radius:2px;width:70%}.mock-product-price{height:5px;background:var(--primary);border-radius:2px;width:40%;opacity:.6}
+        .mock-health .mockup-body{display:flex;flex-direction:column;gap:8px}.mock-health-header{display:flex;justify-content:space-between;align-items:center}.mock-health-greeting{font-size:11px;font-weight:700;color:var(--text)}.mock-health-avatar{width:24px;height:24px;border-radius:50%;background:var(--accent);opacity:.6}
+        .mock-health-stats{display:flex;gap:6px}.mock-stat-card{flex:1;background:#fff;border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:4px}.mock-stat-icon{width:16px;height:16px;border-radius:4px}.mock-stat-val{font-size:13px;font-weight:900;color:var(--text)}.mock-stat-lbl{font-size:7px;color:var(--text-light)}
+        .mock-health-chart{flex:1;background:#fff;border-radius:8px;padding:8px;display:flex;align-items:flex-end;gap:4px}.mock-bar{flex:1;background:var(--accent);border-radius:3px 3px 0 0;opacity:.5}
+        .mock-education .mockup-body{display:flex;flex-direction:column;gap:8px}.mock-edu-nav{display:flex;gap:8px;align-items:center}.mock-edu-logo{width:20px;height:20px;border-radius:4px;background:var(--primary);opacity:.7}.mock-edu-link{height:5px;background:#ddd;border-radius:2px;width:35px}
+        .mock-edu-courses{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1}.mock-course{background:#fff;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}.mock-course-banner{height:35px}.mock-course-body{padding:5px;display:flex;flex-direction:column;gap:3px}.mock-course-title{height:5px;background:#ddd;border-radius:2px;width:80%}.mock-course-info{height:4px;background:#eee;border-radius:2px;width:55%}.mock-course-progress{height:4px;background:#eee;border-radius:2px}.mock-course-progress-fill{height:100%;border-radius:2px}
+        .mock-finance .mockup-body{display:grid;grid-template-columns:160px 1fr;gap:8px}.mock-fin-sidebar{background:#1a1a2e;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px}.mock-fin-item{height:5px;background:rgba(255,255,255,.15);border-radius:2px}.mock-fin-item.active{background:var(--secondary);opacity:.7}
+        .mock-fin-main{display:flex;flex-direction:column;gap:6px}.mock-fin-cards{display:flex;gap:6px}.mock-fin-card{flex:1;background:#fff;border-radius:6px;padding:7px;display:flex;flex-direction:column;gap:3px}.mock-fin-label{font-size:7px;color:var(--text-light)}.mock-fin-value{font-size:12px;font-weight:900;color:var(--text)}.mock-fin-change{font-size:8px}.mock-fin-chart{flex:1;background:#fff;border-radius:6px;padding:6px;display:flex;align-items:flex-end;gap:3px}.mock-fin-bar{flex:1;border-radius:2px 2px 0 0}
+        .mock-realestate .mockup-body{display:flex;flex-direction:column;gap:8px}.mock-re-search{display:flex;gap:6px}.mock-re-input{flex:1;height:22px;background:#fff;border-radius:5px;border:1px solid #e0e0dc}.mock-re-btn{width:50px;height:22px;background:var(--primary);border-radius:5px;opacity:.7}
+        .mock-re-properties{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1}.mock-property{background:#fff;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}.mock-property-img{height:50px}.mock-property-body{padding:5px;display:flex;flex-direction:column;gap:3px}.mock-property-name{height:5px;background:#ddd;border-radius:2px;width:70%}.mock-property-price{height:5px;background:var(--secondary);border-radius:2px;width:45%;opacity:.5}
+        .mock-dashboard .mockup-body{display:grid;grid-template-columns:140px 1fr;gap:8px}.mock-dash-sidebar{background:#fafafa;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px;border:1px solid #eee}.mock-dash-item{height:5px;background:#e0e0dc;border-radius:2px}.mock-dash-item.active{background:var(--primary);opacity:.4}
+        .mock-dash-main{display:flex;flex-direction:column;gap:6px}.mock-dash-top{display:flex;gap:6px}.mock-dash-metric{flex:1;background:#fff;border-radius:6px;padding:7px;display:flex;flex-direction:column;gap:2px;border:1px solid #f0f0ec}.mock-dash-metric-label{font-size:7px;color:var(--text-light)}.mock-dash-metric-val{font-size:13px;font-weight:900;color:var(--text)}.mock-dash-chart{flex:1;background:#fff;border-radius:6px;padding:6px;border:1px solid #f0f0ec;display:flex;align-items:flex-end;gap:3px}
 
-        .hero h1 {
-            font-size: clamp(34px, 5.5vw, 60px);
-            font-weight: 900; line-height: 1.25;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-            opacity: 0;
-        }
-        .hero h1 .highlight {
-            color: var(--primary);
-            position: relative;
-        }
-        .hero h1 .highlight::after {
-            content: '';
-            position: absolute; bottom: 2px; right: 0; left: 0;
-            height: 8px; background: rgba(45,91,255,0.12);
-            border-radius: 4px; z-index: -1;
-        }
+        .project-overlay{position:absolute;inset:0;background:rgba(13,17,23,.88);display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;transition:opacity .4s}
+        .project-card:hover .project-overlay{opacity:1}
+        .project-overlay a{width:44px;height:44px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;transform:translateY(15px);transition:all .3s}
+        .project-card:hover .project-overlay a{transform:translateY(0)}.project-overlay a:hover{background:var(--primary-light)}
+        .project-info{padding:22px}.project-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.project-tag{font-size:11px;padding:3px 10px;border-radius:50px;font-weight:600}
+        .tag-design{background:rgba(255,126,179,.1);color:#C0507A}.tag-dev{background:rgba(45,91,255,.08);color:var(--primary)}.tag-mobile{background:rgba(0,201,167,.1);color:#088A6E}
+        .project-info h3{font-size:19px;font-weight:800;margin-bottom:6px}.project-info p{font-size:13px;color:var(--text-gray);line-height:1.7}
 
-        .hero p {
-            font-size: 17px; color: var(--text-gray);
-            line-height: 1.9; margin-bottom: 35px;
-            animation: fadeInUp 0.8s ease 0.4s forwards;
-            opacity: 0;
-        }
+        .founder{background:var(--bg);overflow:hidden}.founder-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;max-width:1100px;margin:0 auto;align-items:center}
+        .founder-img-wrapper{perspective:1200px;position:relative}
+        .founder-img-card{position:relative;border-radius:20px;overflow:hidden;transform-style:preserve-3d;transition:transform .5s;box-shadow:0 25px 50px rgba(0,0,0,.1)}
+        .founder-img-card:hover{transform:rotateY(-8deg) rotateX(5deg)}
+        .founder-img-card img{width:100%;height:480px;object-fit:cover;display:block;filter:grayscale(15%);transition:filter .4s}
+        .founder-img-card:hover img{filter:grayscale(0%)}
+        .founder-img-frame{position:absolute;inset:-12px;border:2px solid rgba(45,91,255,.12);border-radius:26px;z-index:-1}
+        .founder-floating-code{position:absolute;top:-15px;right:-25px;z-index:5;animation:floatCode 9s ease-in-out infinite}
+        .founder-social-float{position:absolute;left:-16px;bottom:25px;background:var(--card);border-radius:14px;padding:12px;box-shadow:0 8px 25px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:8px}
+        .founder-social-float a{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-gray);text-decoration:none;transition:all .3s}
+        .founder-social-float a:hover{background:var(--primary);color:#fff;transform:scale(1.1)}
+        .founder-text h2{font-size:34px;font-weight:900;margin-bottom:6px}.founder-text h2 span{color:var(--primary)}
+        .founder-role{font-size:15px;color:var(--secondary);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+        .founder-text p{font-size:15px;line-height:2;color:var(--text-gray);margin-bottom:22px}
+        .founder-stats{display:flex;gap:28px}.founder-stat{text-align:center}.founder-stat-num{font-size:30px;font-weight:900;color:var(--primary)}.founder-stat-label{font-size:12px;color:var(--text-gray);font-weight:600}
 
-        .hero-buttons {
-            display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.6s forwards;
-            opacity: 0;
-        }
+        .stats{background:var(--code-bg);padding:80px 40px;position:relative;overflow:hidden}
+        .stats::before{content:'</> { } const => return import async function';position:absolute;inset:0;font-family:'Fira Code',monospace;font-size:14px;color:rgba(126,231,135,.03);word-spacing:30px;line-height:2;overflow:hidden;pointer-events:none}
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;max-width:1000px;margin:0 auto;position:relative;z-index:1}
+        .stat-item{text-align:center;color:#fff;transition:transform .3s;transform-style:preserve-3d;padding:30px 20px;border:1px solid rgba(126,231,135,.08);border-radius:16px;background:rgba(255,255,255,.02)}
+        .stat-item:hover{transform:translateZ(20px) scale(1.05);background:rgba(255,255,255,.04)}
+        .stat-num{font-size:46px;font-weight:900;color:var(--code-green)}.stat-label{font-size:14px;opacity:.5;font-weight:500;margin-top:4px}
 
-        .btn-primary {
-            background: var(--primary);
-            color: #fff; padding: 14px 34px; border-radius: 12px;
-            font-size: 16px; font-weight: 700; text-decoration: none;
-            border: none; cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(45,91,255,0.2);
-            display: inline-flex; align-items: center; gap: 10px;
-            font-family: inherit;
-        }
-        .btn-primary:hover {
-            background: var(--primary-light);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(45,91,255,0.35);
-        }
+        .testimonials{background:var(--card)}.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+        .testimonial-card{background:var(--bg);border-radius:16px;padding:28px;position:relative;transition:all .4s;border:1px solid transparent}
+        .testimonial-card:hover{transform:translateY(-4px);border-color:rgba(45,91,255,.1);box-shadow:0 15px 30px rgba(0,0,0,.04)}
+        .testimonial-stars{display:flex;gap:2px;margin-bottom:12px}.testimonial-stars i{width:16px;height:16px;color:var(--warm);fill:var(--warm)}
+        .testimonial-card p{font-size:14px;line-height:1.9;color:var(--text-gray);margin-bottom:18px;font-style:italic}
+        .testimonial-author{display:flex;align-items:center;gap:12px}.testimonial-author img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+        .testimonial-author-name{font-weight:700;font-size:14px}.testimonial-author-role{font-size:12px;color:var(--text-light)}
+        .testimonial-quote{position:absolute;top:18px;left:22px;font-size:55px;color:rgba(45,91,255,.06);font-family:'Fira Code',monospace;line-height:1}
 
-        .btn-secondary {
-            background: var(--card);
-            color: var(--text); padding: 14px 34px; border-radius: 12px;
-            font-size: 16px; font-weight: 700; text-decoration: none;
-            border: 1px solid var(--border); cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex; align-items: center; gap: 10px;
-            font-family: inherit;
-        }
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-        }
+        .tech-stack{background:var(--bg);padding:80px 40px}.tech-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:900px;margin:0 auto}
+        .tech-item{width:95px;height:95px;background:var(--card);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:all .3s;border:1px solid var(--border);cursor:pointer}
+        .tech-item:hover{transform:translateY(-6px) rotateX(8deg);box-shadow:0 12px 25px rgba(0,0,0,.06);border-color:rgba(45,91,255,.15)}
+        .tech-item span{font-size:10px;font-weight:700;color:var(--text-gray)}
 
-        /* 3D Cube */
-        .hero-3d {
-            perspective: 800px;
-            position: absolute; left: 50%; top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1; pointer-events: none;
-        }
-        .cube-wrapper {
-            width: 280px; height: 280px;
-            transform-style: preserve-3d;
-            animation: rotateCube 25s linear infinite;
-        }
-        @keyframes rotateCube {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-        }
-        .cube-face {
-            position: absolute; width: 280px; height: 280px;
-            border: 1.5px solid rgba(45,91,255,0.08);
-            background: rgba(45,91,255,0.015);
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 20px;
-        }
-        .cube-face.front { transform: translateZ(140px); }
-        .cube-face.back { transform: rotateY(180deg) translateZ(140px); }
-        .cube-face.right { transform: rotateY(90deg) translateZ(140px); }
-        .cube-face.left { transform: rotateY(-90deg) translateZ(140px); }
-        .cube-face.top { transform: rotateX(90deg) translateZ(140px); }
-        .cube-face.bottom { transform: rotateX(-90deg) translateZ(140px); }
-        .cube-icon { font-size: 50px; opacity: 0.08; }
+        .contact{background:var(--card)}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto}
+        .contact-info h2{font-size:34px;font-weight:900;margin-bottom:14px}.contact-info h2 span{color:var(--primary)}
+        .contact-info>p{font-size:15px;color:var(--text-gray);line-height:1.8;margin-bottom:28px}
+        .contact-item{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+        .contact-item-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(45,91,255,.06);color:var(--primary)}
+        .contact-item-icon.whatsapp-icon{background:rgba(37,211,102,.1);color:#25D366}
+        .contact-item-icon i{width:20px;height:20px}.contact-item-text strong{display:block;font-size:13px;margin-bottom:1px}.contact-item-text span{font-size:13px;color:var(--text-gray)}
+        .contact-socials{display:flex;gap:8px;margin-top:25px}.contact-socials a{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text-gray);text-decoration:none;transition:all .3s}
+        .contact-socials a:hover{background:var(--primary);color:#fff;transform:translateY(-2px)}
+        .contact-socials a.whatsapp-btn{background:rgba(37,211,102,.1);color:#25D366}.contact-socials a.whatsapp-btn:hover{background:#25D366;color:#fff}
 
-        /* ===== SECTIONS ===== */
-        section { padding: 100px 40px; position: relative; }
+        .contact-form{background:var(--bg);border-radius:20px;padding:36px;position:relative}
+        .contact-form::before{content:'<form />';position:absolute;top:-10px;right:20px;font-family:'Fira Code',monospace;font-size:10px;color:var(--code-comment);background:var(--bg);padding:2px 8px;border-radius:4px}
+        .form-group{margin-bottom:18px}.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+        .form-group label::before{content:'<';color:var(--code-comment);font-family:'Fira Code';margin-left:4px}
+        .form-group label::after{content:'/>';color:var(--code-comment);font-family:'Fira Code';margin-right:4px}
+        .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border-radius:10px;border:1.5px solid rgba(0,0,0,.08);background:var(--card);font-family:inherit;font-size:14px;color:var(--text);outline:none;transition:border-color .3s,box-shadow .3s}
+        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(45,91,255,.08)}
+        .form-group textarea{resize:vertical;min-height:110px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .form-submit{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+        .form-submit:hover{background:var(--primary-light);transform:translateY(-2px);box-shadow:0 8px 25px rgba(45,91,255,.3)}
+        .form-message{margin-top:12px;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;display:none}
+        .form-message.success{display:block;background:rgba(0,201,167,.08);color:#088A6E;border:1px solid rgba(0,201,167,.2)}
 
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(45,91,255,0.06); padding: 6px 18px;
-            border-radius: 50px; font-size: 14px; font-weight: 600;
-            color: var(--primary); margin-bottom: 15px;
-        }
-        .section-title {
-            font-size: clamp(28px, 4vw, 40px);
-            font-weight: 900; margin-bottom: 15px;
-        }
-        .section-desc {
-            font-size: 16px; color: var(--text-gray);
-            max-width: 560px; margin: 0 auto; line-height: 1.8;
-        }
+        .whatsapp-float{position:fixed;bottom:30px;right:30px;z-index:998}
+        .whatsapp-float a{width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:all .3s;position:relative}
+        .whatsapp-float a:hover{transform:scale(1.1);box-shadow:0 6px 30px rgba(37,211,102,.6)}
+        .whatsapp-float a::before{content:'</>chat';position:absolute;top:-24px;font-family:'Fira Code',monospace;font-size:9px;color:#25D366;background:var(--card);padding:2px 8px;border-radius:4px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.1);opacity:0;transform:translateY(5px);transition:all .3s}
+        .whatsapp-float a:hover::before{opacity:1;transform:translateY(0)}
 
-        /* ===== ABOUT ===== */
-        .about { background: var(--card); }
-        .about-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 60px; max-width: 1200px; margin: 0 auto;
-            align-items: center;
-        }
-        .about-visual { perspective: 1000px; }
-        .about-3d-card {
-            background: var(--primary);
-            border-radius: 20px; padding: 45px;
-            color: #fff; position: relative; overflow: hidden;
-            transform-style: preserve-3d;
-            transition: transform 0.4s ease;
-            min-height: 380px;
-            display: flex; flex-direction: column;
-            justify-content: center;
-        }
-        .about-3d-card::before {
-            content: ''; position: absolute; top: -50%; right: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 60%);
-        }
-        .about-3d-card:hover { transform: rotateY(-3deg) rotateX(3deg); }
-        .about-card-number {
-            font-size: 72px; font-weight: 900; opacity: 0.15;
-            position: absolute; top: 20px; right: 30px;
-        }
-        .about-card-icon { margin-bottom: 18px; }
-        .about-card-icon i { width: 46px; height: 46px; }
-        .about-3d-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
-        .about-3d-card p { font-size: 15px; line-height: 1.8; opacity: 0.9; }
+        .footer{background:var(--code-bg);color:#fff;padding:60px 40px 30px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto}
+        .footer-brand p{font-size:13px;line-height:1.9;color:var(--code-comment);margin-top:14px;max-width:280px}
+        .footer h4{font-size:15px;font-weight:800;margin-bottom:18px;position:relative;padding-bottom:8px}
+        .footer h4::after{content:'';position:absolute;bottom:0;right:0;width:24px;height:2px;border-radius:10px;background:var(--primary)}
+        .footer-links{list-style:none}.footer-links li{margin-bottom:9px}.footer-links a{color:var(--code-comment);text-decoration:none;font-size:13px;transition:all .3s}.footer-links a:hover{color:var(--code-green)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,.05);margin-top:40px;padding-top:22px;display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin-left:auto;margin-right:auto;font-size:12px;color:var(--code-comment)}
 
-        .about-text h2 { font-size: 34px; font-weight: 900; margin-bottom: 18px; }
-        .about-text h2 span { color: var(--primary); }
-        .about-text p {
-            font-size: 15px; line-height: 2; color: var(--text-gray);
-            margin-bottom: 22px;
-        }
-        .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .about-feature {
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 600; font-size: 14px;
-        }
-        .about-feature i { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; }
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+        .particles-container{position:fixed;inset:0;pointer-events:none;z-index:0}
+        .particle{position:absolute;border-radius:50%;animation:particleFloat linear infinite}
+        @keyframes particleFloat{0%{transform:translateY(100vh) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translateY(-80px) rotate(720deg);opacity:0}}
 
-        /* ===== SERVICES ===== */
-        .services { background: var(--bg); }
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 22px; max-width: 1200px; margin: 0 auto;
-        }
-        .service-card {
-            background: var(--card); border-radius: 16px; padding: 32px;
-            position: relative; overflow: hidden;
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            border: 1px solid var(--border);
-        }
-        .service-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 3px; transition: height 0.4s ease;
-        }
-        .service-card:nth-child(1)::before { background: var(--primary); }
-        .service-card:nth-child(2)::before { background: var(--secondary); }
-        .service-card:nth-child(3)::before { background: var(--accent); }
-        .service-card:nth-child(4)::before { background: var(--warm); }
-        .service-card:nth-child(5)::before { background: var(--rose); }
-        .service-card:nth-child(6)::before { background: #5B7FFF; }
+        .custom-cursor{width:18px;height:18px;border:2px solid var(--primary);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .15s,background .15s;transform:translate(-50%,-50%)}
+        .custom-cursor.hover{transform:translate(-50%,-50%) scale(2);background:rgba(45,91,255,.08)}
+        .scroll-top{position:fixed;bottom:30px;left:30px;width:46px;height:46px;border-radius:12px;background:var(--primary);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(15px);transition:all .3s;z-index:999}
+        .scroll-top.visible{opacity:1;transform:translateY(0)}.scroll-top:hover{transform:translateY(-2px)}
 
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-            border-color: transparent;
-        }
-        .service-card:hover::before { height: 4px; }
+        .mobile-menu{position:fixed;inset:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;opacity:0;pointer-events:none;transition:opacity .3s}
+        .mobile-menu.open{opacity:1;pointer-events:all}.mobile-menu a{text-decoration:none;color:var(--text);font-size:22px;font-weight:700;transition:color .3s}.mobile-menu a:hover{color:var(--primary)}
+        .mobile-close{position:absolute;top:20px;left:20px;background:none;border:none;font-size:28px;cursor:pointer;color:var(--text)}
 
-        .service-icon {
-            width: 56px; height: 56px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 18px;
-        }
-        .service-card:nth-child(1) .service-icon { background: rgba(45,91,255,0.08); color: var(--primary); }
-        .service-card:nth-child(2) .service-icon { background: rgba(255,107,53,0.08); color: var(--secondary); }
-        .service-card:nth-child(3) .service-icon { background: rgba(0,201,167,0.08); color: var(--accent); }
-        .service-card:nth-child(4) .service-icon { background: rgba(255,179,71,0.1); color: #D4880F; }
-        .service-card:nth-child(5) .service-icon { background: rgba(255,126,179,0.08); color: var(--rose); }
-        .service-card:nth-child(6) .service-icon { background: rgba(91,127,255,0.08); color: #5B7FFF; }
+        .loader{position:fixed;inset:0;background:var(--code-bg);display:flex;align-items:center;justify-content:center;z-index:10000;transition:opacity .5s,visibility .5s}
+        .loader.hidden{opacity:0;visibility:hidden}
+        .loader-logo{width:70px;height:70px;background:var(--primary);border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:28px;font-family:'Fira Code';animation:loaderPulse 1s ease-in-out infinite;margin:0 auto}
+        @keyframes loaderPulse{0%,100%{transform:scale(1) rotateY(0)}50%{transform:scale(1.08) rotateY(5deg)}}
+        .loader-code{font-family:'Fira Code',monospace;font-size:11px;color:var(--code-comment);margin-top:15px}
+        .loader-code .cg{color:var(--code-green)}
+        .loader-bar{width:160px;height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden;margin:12px auto 0}
+        .loader-bar-fill{width:0;height:100%;background:var(--code-green);border-radius:10px;animation:loaderFill 1.5s ease forwards}
+        @keyframes loaderFill{to{width:100%}}
 
-        .service-icon i { width: 26px; height: 26px; }
-        .service-card h3 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
-        .service-card p { font-size: 14px; line-height: 1.8; color: var(--text-gray); }
-
-        /* ===== PORTFOLIO ===== */
-        .portfolio { background: var(--card); }
-        .portfolio-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 28px; max-width: 1200px; margin: 0 auto;
-        }
-        .project-card {
-            border-radius: 16px; overflow: hidden;
-            background: var(--card); border: 1px solid var(--border);
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
-        }
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.08);
-            border-color: transparent;
-        }
-
-        /* ===== MOCKUP STYLES ===== */
-        .project-mockup {
-            position: relative; overflow: hidden; height: 240px;
-            background: #f0f0ec;
-        }
-        .mockup-toolbar {
-            display: flex; align-items: center; gap: 6px;
-            padding: 10px 14px;
-            background: #e8e8e3;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-        }
-        .mockup-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-        }
-        .mockup-dot:nth-child(1) { background: #FF5F57; }
-        .mockup-dot:nth-child(2) { background: #FFBD2E; }
-        .mockup-dot:nth-child(3) { background: #28CA41; }
-        .mockup-url {
-            flex: 1; margin-right: 10px;
-            background: #fff; border-radius: 4px; padding: 3px 10px;
-            font-size: 10px; color: var(--text-gray);
-            font-family: monospace; direction: ltr; text-align: left;
-        }
-        .mockup-body {
-            padding: 12px; height: calc(100% - 34px);
-            overflow: hidden;
-        }
-
-        /* E-commerce mockup */
-        .mock-ecommerce .mockup-body {
-            display: grid; grid-template-columns: 180px 1fr; gap: 10px;
-        }
-        .mock-sidebar {
-            background: var(--primary); border-radius: 6px; padding: 8px;
-            display: flex; flex-direction: column; gap: 5px;
-        }
-        .mock-sidebar-item {
-            height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px;
-        }
-        .mock-sidebar-item.active { background: rgba(255,255,255,0.5); }
-        .mock-products {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
-        }
-        .mock-product {
-            background: #fff; border-radius: 6px; padding: 5px;
-            display: flex; flex-direction: column; gap: 4px;
-        }
-        .mock-product-img {
-            height: 45px; background: #e8e8e3; border-radius: 4px;
-        }
-        .mock-product-title { height: 4px; background: #ddd; border-radius: 2px; width: 70%; }
-        .mock-product-price { height: 5px; background: var(--primary); border-radius: 2px; width: 40%; opacity: 0.6; }
-
-        /* Health mockup */
-        .mock-health .mockup-body {
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .mock-health-header {
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .mock-health-greeting { font-size: 11px; font-weight: 700; color: var(--text); }
-        .mock-health-avatar {
-            width: 24px; height: 24px; border-radius: 50%; background: var(--accent); opacity: 0.6;
-        }
-        .mock-health-stats {
-            display: flex; gap: 6px;
-        }
-        .mock-stat-card {
-            flex: 1; background: #fff; border-radius: 8px; padding: 8px;
-            display: flex; flex-direction: column; gap: 4px;
-        }
-        .mock-stat-icon { width: 16px; height: 16px; border-radius: 4px; }
-        .mock-stat-val { font-size: 13px; font-weight: 900; color: var(--text); }
-        .mock-stat-lbl { font-size: 7px; color: var(--text-light); }
-        .mock-health-chart {
-            flex: 1; background: #fff; border-radius: 8px; padding: 8px;
-            display: flex; align-items: flex-end; gap: 4px;
-        }
-        .mock-bar {
-            flex: 1; background: var(--accent); border-radius: 3px 3px 0 0;
-            opacity: 0.5;
-        }
-
-        /* Education mockup */
-        .mock-education .mockup-body {
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .mock-edu-nav {
-            display: flex; gap: 8px; align-items: center;
-        }
-        .mock-edu-logo { width: 20px; height: 20px; border-radius: 4px; background: var(--primary); opacity: 0.7; }
-        .mock-edu-link { height: 5px; background: #ddd; border-radius: 2px; width: 35px; }
-        .mock-edu-courses {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1;
-        }
-        .mock-course {
-            background: #fff; border-radius: 8px; overflow: hidden;
-            display: flex; flex-direction: column;
-        }
-        .mock-course-banner { height: 35px; }
-        .mock-course-body { padding: 5px; display: flex; flex-direction: column; gap: 3px; }
-        .mock-course-title { height: 5px; background: #ddd; border-radius: 2px; width: 80%; }
-        .mock-course-info { height: 4px; background: #eee; border-radius: 2px; width: 55%; }
-        .mock-course-progress { height: 4px; background: #eee; border-radius: 2px; }
-        .mock-course-progress-fill { height: 100%; border-radius: 2px; }
-
-        /* Finance mockup */
-        .mock-finance .mockup-body {
-            display: grid; grid-template-columns: 160px 1fr; gap: 8px;
-        }
-        .mock-fin-sidebar {
-            background: #1a1a2e; border-radius: 6px; padding: 8px;
-            display: flex; flex-direction: column; gap: 5px;
-        }
-        .mock-fin-item {
-            height: 5px; background: rgba(255,255,255,0.15); border-radius: 2px;
-        }
-        .mock-fin-item.active { background: var(--secondary); opacity: 0.7; }
-        .mock-fin-main {
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .mock-fin-cards {
-            display: flex; gap: 6px;
-        }
-        .mock-fin-card {
-            flex: 1; background: #fff; border-radius: 6px; padding: 7px;
-            display: flex; flex-direction: column; gap: 3px;
-        }
-        .mock-fin-label { font-size: 7px; color: var(--text-light); }
-        .mock-fin-value { font-size: 12px; font-weight: 900; color: var(--text); }
-        .mock-fin-change { font-size: 8px; }
-        .mock-fin-chart {
-            flex: 1; background: #fff; border-radius: 6px; padding: 6px;
-            display: flex; align-items: flex-end; gap: 3px;
-        }
-        .mock-fin-bar {
-            flex: 1; border-radius: 2px 2px 0 0;
-        }
-
-        /* Real Estate mockup */
-        .mock-realestate .mockup-body {
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .mock-re-search {
-            display: flex; gap: 6px;
-        }
-        .mock-re-input {
-            flex: 1; height: 22px; background: #fff; border-radius: 5px; border: 1px solid #e0e0dc;
-        }
-        .mock-re-btn {
-            width: 50px; height: 22px; background: var(--primary); border-radius: 5px; opacity: 0.7;
-        }
-        .mock-re-properties {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1;
-        }
-        .mock-property {
-            background: #fff; border-radius: 8px; overflow: hidden;
-            display: flex; flex-direction: column;
-        }
-        .mock-property-img { height: 50px; }
-        .mock-property-body { padding: 5px; display: flex; flex-direction: column; gap: 3px; }
-        .mock-property-name { height: 5px; background: #ddd; border-radius: 2px; width: 70%; }
-        .mock-property-price { height: 5px; background: var(--secondary); border-radius: 2px; width: 45%; opacity: 0.5; }
-
-        /* Dashboard mockup */
-        .mock-dashboard .mockup-body {
-            display: grid; grid-template-columns: 140px 1fr; gap: 8px;
-        }
-        .mock-dash-sidebar {
-            background: #fafafa; border-radius: 6px; padding: 8px;
-            display: flex; flex-direction: column; gap: 5px;
-            border: 1px solid #eee;
-        }
-        .mock-dash-item {
-            height: 5px; background: #e0e0dc; border-radius: 2px;
-        }
-        .mock-dash-item.active { background: var(--primary); opacity: 0.4; }
-        .mock-dash-main {
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .mock-dash-top {
-            display: flex; gap: 6px;
-        }
-        .mock-dash-metric {
-            flex: 1; background: #fff; border-radius: 6px; padding: 7px;
-            display: flex; flex-direction: column; gap: 2px;
-            border: 1px solid #f0f0ec;
-        }
-        .mock-dash-metric-label { font-size: 7px; color: var(--text-light); }
-        .mock-dash-metric-val { font-size: 13px; font-weight: 900; color: var(--text); }
-        .mock-dash-chart {
-            flex: 1; background: #fff; border-radius: 6px; padding: 6px;
-            border: 1px solid #f0f0ec;
-            display: flex; align-items: flex-end; gap: 3px;
-        }
-
-        .project-overlay {
-            position: absolute; inset: 0;
-            background: rgba(26,26,46,0.85);
-            display: flex; align-items: center; justify-content: center;
-            gap: 10px; opacity: 0; transition: opacity 0.4s ease;
-        }
-        .project-card:hover .project-overlay { opacity: 1; }
-        .project-overlay a {
-            width: 44px; height: 44px; background: #fff;
-            border-radius: 10px; display: flex; align-items: center; justify-content: center;
-            color: var(--primary); text-decoration: none;
-            transform: translateY(15px); transition: all 0.3s ease;
-        }
-        .project-card:hover .project-overlay a { transform: translateY(0); }
-        .project-overlay a:hover { background: var(--primary); color: #fff; }
-
-        .project-info { padding: 22px; }
-        .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-        .project-tag {
-            font-size: 11px; padding: 3px 10px; border-radius: 50px;
-            font-weight: 600;
-        }
-        .tag-design { background: rgba(255,126,179,0.1); color: #C0507A; }
-        .tag-dev { background: rgba(45,91,255,0.08); color: var(--primary); }
-        .tag-mobile { background: rgba(0,201,167,0.1); color: #088A6E; }
-        .project-info h3 { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
-        .project-info p { font-size: 13px; color: var(--text-gray); line-height: 1.7; }
-
-        /* ===== FOUNDER ===== */
-        .founder {
-            background: var(--bg);
-            overflow: hidden;
-        }
-        .founder-grid {
-            display: grid; grid-template-columns: 1fr 1.2fr;
-            gap: 60px; max-width: 1100px; margin: 0 auto;
-            align-items: center;
-        }
-        .founder-img-wrapper { perspective: 1000px; }
-        .founder-img-card {
-            position: relative; border-radius: 20px; overflow: hidden;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-        }
-        .founder-img-card:hover { transform: rotateY(-6deg) rotateX(4deg); }
-        .founder-img-card img {
-            width: 100%; height: 480px; object-fit: cover;
-            display: block; filter: grayscale(15%);
-            transition: filter 0.4s;
-        }
-        .founder-img-card:hover img { filter: grayscale(0%); }
-        .founder-img-frame {
-            position: absolute; inset: -12px;
-            border: 2px solid rgba(45,91,255,0.12);
-            border-radius: 26px; z-index: -1;
-        }
-        .founder-social-float {
-            position: absolute; left: -16px; bottom: 25px;
-            background: var(--card); border-radius: 14px; padding: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .founder-social-float a {
-            width: 36px; height: 36px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-gray); text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .founder-social-float a:hover {
-            background: var(--primary); color: #fff;
-            transform: scale(1.1);
-        }
-
-        .founder-text h2 { font-size: 34px; font-weight: 900; margin-bottom: 6px; }
-        .founder-text h2 span { color: var(--primary); }
-        .founder-role {
-            font-size: 15px; color: var(--secondary); font-weight: 700;
-            margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
-        }
-        .founder-text p {
-            font-size: 15px; line-height: 2; color: var(--text-gray);
-            margin-bottom: 22px;
-        }
-        .founder-stats { display: flex; gap: 28px; }
-        .founder-stat { text-align: center; }
-        .founder-stat-num {
-            font-size: 30px; font-weight: 900; color: var(--primary);
-        }
-        .founder-stat-label { font-size: 12px; color: var(--text-gray); font-weight: 600; }
-
-        /* ===== STATS ===== */
-        .stats {
-            background: var(--text);
-            padding: 80px 40px;
-        }
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 30px; max-width: 1000px; margin: 0 auto;
-        }
-        .stat-item {
-            text-align: center; color: #fff;
-            transition: transform 0.3s ease;
-        }
-        .stat-item:hover { transform: scale(1.08); }
-        .stat-num {
-            font-size: 46px; font-weight: 900;
-        }
-        .stat-label { font-size: 14px; opacity: 0.6; font-weight: 500; margin-top: 4px; }
-
-        /* ===== TESTIMONIALS ===== */
-        .testimonials { background: var(--card); }
-        .testimonials-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-            gap: 22px; max-width: 1200px; margin: 0 auto;
-        }
-        .testimonial-card {
-            background: var(--bg); border-radius: 16px; padding: 28px;
-            position: relative; transition: all 0.4s ease;
-            border: 1px solid transparent;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(45,91,255,0.1);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.04);
-        }
-        .testimonial-stars { display: flex; gap: 2px; margin-bottom: 12px; }
-        .testimonial-stars i { width: 16px; height: 16px; color: var(--warm); fill: var(--warm); }
-        .testimonial-card p {
-            font-size: 14px; line-height: 1.9; color: var(--text-gray);
-            margin-bottom: 18px; font-style: italic;
-        }
-        .testimonial-author { display: flex; align-items: center; gap: 12px; }
-        .testimonial-author img {
-            width: 42px; height: 42px; border-radius: 50%; object-fit: cover;
-        }
-        .testimonial-author-name { font-weight: 700; font-size: 14px; }
-        .testimonial-author-role { font-size: 12px; color: var(--text-light); }
-        .testimonial-quote {
-            position: absolute; top: 18px; left: 22px;
-            font-size: 55px; color: rgba(45,91,255,0.06);
-            font-family: serif; line-height: 1;
-        }
-
-        /* ===== TECH ===== */
-        .tech-stack { background: var(--bg); padding: 80px 40px; }
-        .tech-grid {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 20px; max-width: 900px; margin: 0 auto;
-        }
-        .tech-item {
-            width: 95px; height: 95px; background: var(--card);
-            border-radius: 16px; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 6px;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border);
-            cursor: pointer;
-        }
-        .tech-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.06);
-            border-color: rgba(45,91,255,0.15);
-        }
-        .tech-item span { font-size: 10px; font-weight: 700; color: var(--text-gray); }
-
-        /* ===== CONTACT ===== */
-        .contact { background: var(--card); }
-        .contact-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 50px; max-width: 1100px; margin: 0 auto;
-        }
-        .contact-info h2 { font-size: 34px; font-weight: 900; margin-bottom: 14px; }
-        .contact-info h2 span { color: var(--primary); }
-        .contact-info > p {
-            font-size: 15px; color: var(--text-gray); line-height: 1.8;
-            margin-bottom: 28px;
-        }
-        .contact-item {
-            display: flex; align-items: center; gap: 14px;
-            margin-bottom: 18px;
-        }
-        .contact-item-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; background: rgba(45,91,255,0.06); color: var(--primary);
-        }
-        .contact-item-icon i { width: 20px; height: 20px; }
-        .contact-item-text strong { display: block; font-size: 13px; margin-bottom: 1px; }
-        .contact-item-text span { font-size: 13px; color: var(--text-gray); }
-
-        .contact-socials { display: flex; gap: 8px; margin-top: 25px; }
-        .contact-socials a {
-            width: 42px; height: 42px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--bg); color: var(--text-gray);
-            text-decoration: none; transition: all 0.3s ease;
-        }
-        .contact-socials a:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
-
-        .contact-form {
-            background: var(--bg); border-radius: 20px; padding: 36px;
-        }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%; padding: 12px 16px; border-radius: 10px;
-            border: 1.5px solid rgba(0,0,0,0.08);
-            background: var(--card); font-family: inherit; font-size: 14px;
-            color: var(--text); outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(45,91,255,0.08);
-        }
-        .form-group textarea { resize: vertical; min-height: 110px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-        .form-submit {
-            width: 100%; padding: 14px;
-            background: var(--primary); color: #fff;
-            border: none; border-radius: 10px;
-            font-size: 15px; font-weight: 700; cursor: pointer;
-            transition: all 0.3s ease; font-family: inherit;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .form-submit:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(45,91,255,0.3);
-        }
-        .form-message {
-            margin-top: 12px; padding: 10px 16px; border-radius: 10px;
-            font-size: 13px; font-weight: 600; display: none;
-        }
-        .form-message.success {
-            display: block; background: rgba(0,201,167,0.08);
-            color: #088A6E; border: 1px solid rgba(0,201,167,0.2);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer { background: var(--text); color: #fff; padding: 60px 40px 30px; }
-        .footer-grid {
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px; max-width: 1200px; margin: 0 auto;
-        }
-        .footer-brand p {
-            font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.5);
-            margin-top: 14px; max-width: 280px;
-        }
-        .footer h4 {
-            font-size: 15px; font-weight: 800; margin-bottom: 18px;
-            position: relative; padding-bottom: 8px;
-        }
-        .footer h4::after {
-            content: ''; position: absolute; bottom: 0; right: 0;
-            width: 24px; height: 2px; border-radius: 10px;
-            background: var(--primary);
-        }
-        .footer-links { list-style: none; }
-        .footer-links li { margin-bottom: 9px; }
-        .footer-links a {
-            color: rgba(255,255,255,0.5); text-decoration: none;
-            font-size: 13px; transition: all 0.3s ease;
-        }
-        .footer-links a:hover { color: var(--primary); }
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.08);
-            margin-top: 40px; padding-top: 22px;
-            display: flex; justify-content: space-between;
-            align-items: center; max-width: 1200px; margin-left: auto; margin-right: auto;
-            font-size: 12px; color: rgba(255,255,255,0.35);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-on-scroll {
-            opacity: 0; transform: translateY(30px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
-
-        /* ===== PARTICLES ===== */
-        .particles-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-        .particle {
-            position: absolute; border-radius: 50%;
-            animation: particleFloat linear infinite;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-80px) rotate(720deg); opacity: 0; }
-        }
-
-        /* ===== CURSOR ===== */
-        .custom-cursor {
-            width: 18px; height: 18px;
-            border: 2px solid var(--primary);
-            border-radius: 50%; position: fixed;
-            pointer-events: none; z-index: 9999;
-            transition: transform 0.15s ease, background 0.15s ease;
-            transform: translate(-50%, -50%);
-        }
-        .custom-cursor.hover {
-            transform: translate(-50%, -50%) scale(2);
-            background: rgba(45,91,255,0.08);
-        }
-
-        /* ===== SCROLL TOP ===== */
-        .scroll-top {
-            position: fixed; bottom: 30px; left: 30px;
-            width: 46px; height: 46px; border-radius: 12px;
-            background: var(--primary); color: #fff; border: none;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            opacity: 0; transform: translateY(15px);
-            transition: all 0.3s ease; z-index: 999;
-            box-shadow: 0 4px 15px rgba(45,91,255,0.25);
-        }
-        .scroll-top.visible { opacity: 1; transform: translateY(0); }
-        .scroll-top:hover { transform: translateY(-2px); }
-
-        /* ===== MOBILE MENU ===== */
-        .mobile-menu {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.97);
-            backdrop-filter: blur(20px); z-index: 999;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 22px;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
-        .mobile-menu.open { opacity: 1; pointer-events: all; }
-        .mobile-menu a {
-            text-decoration: none; color: var(--text);
-            font-size: 22px; font-weight: 700; transition: color 0.3s;
-        }
-        .mobile-menu a:hover { color: var(--primary); }
-        .mobile-close {
-            position: absolute; top: 20px; left: 20px;
-            background: none; border: none; font-size: 28px;
-            cursor: pointer; color: var(--text);
-        }
-
-        /* ===== LOADER ===== */
-        .loader {
-            position: fixed; inset: 0; background: var(--card);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10000; transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .loader.hidden { opacity: 0; visibility: hidden; }
-        .loader-logo {
-            width: 70px; height: 70px;
-            background: var(--primary); border-radius: 18px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-weight: 900; font-size: 28px; font-family: 'Tajawal';
-            animation: loaderPulse 1s ease-in-out infinite;
-        }
-        @keyframes loaderPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        .loader-bar {
-            width: 160px; height: 3px; background: rgba(0,0,0,0.06);
-            border-radius: 10px; overflow: hidden; margin: 18px auto 0;
-        }
-        .loader-bar-fill {
-            width: 0%; height: 100%; background: var(--primary);
-            border-radius: 10px; animation: loaderFill 1.5s ease forwards;
-        }
-        @keyframes loaderFill { to { width: 100%; } }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .about-grid, .founder-grid, .contact-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hero-3d { display: none; }
-        }
-        @media (max-width: 768px) {
-            section { padding: 70px 20px; }
-            .navbar { padding: 12px 20px; }
-            .nav-links { display: none; }
-            .menu-toggle { display: block; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
-            .portfolio-grid { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .founder-stats { gap: 18px; }
-            .custom-cursor { display: none; }
-            .founder-img-card img { height: 340px; }
-            .about-features { grid-template-columns: 1fr; }
-        }
+        @media(max-width:1024px){.about-grid,.founder-grid,.contact-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.hero-3d,.orbit-container,.floating-code{display:none!important}}
+        @media(max-width:768px){section{padding:70px 20px}.navbar{padding:12px 20px}.nav-links{display:none}.menu-toggle{display:block}.stats-grid{grid-template-columns:1fr 1fr;gap:18px}.portfolio-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.founder-stats{gap:18px}.custom-cursor{display:none}.founder-img-card img{height:340px}.about-features{grid-template-columns:1fr}.about-floating-code,.founder-floating-code{display:none}}
     </style>
 </head>
 <body>
 
 <div class="loader" id="loader">
-    <div style="text-align:center;">
+    <div style="text-align:center">
         <div class="loader-logo">M</div>
+        <div class="loader-code"><span class="cg">const</span> msoft = <span class="cg">new</span> Company();</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 </div>
@@ -995,77 +269,56 @@
 </div>
 
 <nav class="navbar" id="navbar">
-    <a href="#home" class="nav-logo">
-        <div class="logo-icon">M</div>
-        <div class="logo-text">M <span>Soft</span></div>
-    </a>
+    <a href="#home" class="nav-logo"><div class="logo-icon">M</div><div class="logo-text">M <span>Soft</span></div></a>
     <ul class="nav-links">
-        <li><a href="#home">الرئيسية</a></li>
-        <li><a href="#about">من نحن</a></li>
-        <li><a href="#services">خدماتنا</a></li>
-        <li><a href="#portfolio">أعمالنا</a></li>
-        <li><a href="#founder">المؤسس</a></li>
-        <li><a href="#contact" class="nav-cta">تواصل معنا</a></li>
+        <li><a href="#home">الرئيسية</a></li><li><a href="#about">من نحن</a></li><li><a href="#services">خدماتنا</a></li><li><a href="#portfolio">أعمالنا</a></li><li><a href="#founder">المؤسس</a></li><li><a href="#contact" class="nav-cta">تواصل معنا</a></li>
     </ul>
-    <button class="menu-toggle" id="menuToggle">
-        <i data-lucide="menu" style="width:26px;height:26px;"></i>
-    </button>
+    <button class="menu-toggle" id="menuToggle"><i data-lucide="menu" style="width:26px;height:26px"></i></button>
 </nav>
 
-<!-- Hero -->
 <section class="hero" id="home">
-    <div class="hero-bg-shapes">
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
+    <div class="hero-bg-shapes"><div class="floating-shape shape-1"></div><div class="floating-shape shape-2"></div><div class="floating-shape shape-3"></div></div>
+    <div class="code-rain" id="codeRain"></div>
+
+    <div class="floating-code code-block-1"><span class="code-keyword">const</span> <span class="code-var">app</span> = <span class="code-func">createApp</span>({<br>&nbsp;&nbsp;<span class="code-var">name</span>: <span class="code-string">'M Soft'</span>,<br>&nbsp;&nbsp;<span class="code-var">version</span>: <span class="code-string">'2.0'</span><br>});</div>
+    <div class="floating-code code-block-2"><span class="code-tag">&lt;div</span> <span class="code-var">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span><br>&nbsp;&nbsp;<span class="code-tag">&lt;h1&gt;</span>{ <span class="code-func">title</span> }<span class="code-tag">&lt;/h1&gt;</span><br><span class="code-tag">&lt;/div&gt;</span></div>
+    <div class="floating-code code-block-3"><span class="code-keyword">async</span> <span class="code-keyword">function</span> <span class="code-func">deploy</span>() {<br>&nbsp;&nbsp;<span class="code-keyword">await</span> <span class="code-func">build</span>();<br>&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">'🚀'</span>;<br>}</div>
+    <div class="floating-code code-block-4"><span class="code-keyword">import</span> { <span class="code-func">Router</span> } <span class="code-keyword">from</span> <span class="code-string">'react'</span>;<br><span class="code-comment">// M Soft Engine</span><br><span class="code-keyword">export</span> <span class="code-keyword">default</span> <span class="code-func">App</span>;</div>
+
+    <div class="orbit-container">
+        <div class="orbit-ring"><div class="orbit-icon" style="top:0;left:50%;transform:translate(-50%,-50%)">⚛</div><div class="orbit-icon" style="bottom:0;left:50%;transform:translate(-50%,50%)">📦</div><div class="orbit-icon" style="top:50%;right:0;transform:translate(50%,-50%)">🔧</div><div class="orbit-icon" style="top:50%;left:0;transform:translate(-50%,-50%)">⚡</div></div>
+        <div class="orbit-ring"><div class="orbit-icon" style="top:0;left:50%;transform:translate(-50%,-50%)">🎨</div><div class="orbit-icon" style="bottom:0;left:50%;transform:translate(-50%,50%)">🔒</div></div>
+        <div class="orbit-ring"><div class="orbit-icon" style="top:0;left:50%;transform:translate(-50%,-50%)">🤖</div></div>
     </div>
 
     <div class="hero-3d">
         <div class="cube-wrapper">
-            <div class="cube-face front"><span class="cube-icon">&lt;/&gt;</span></div>
-            <div class="cube-face back"><span class="cube-icon">{ }</span></div>
-            <div class="cube-face right"><span class="cube-icon">⚡</span></div>
-            <div class="cube-face left"><span class="cube-icon">♦</span></div>
-            <div class="cube-face top"><span class="cube-icon">✦</span></div>
-            <div class="cube-face bottom"><span class="cube-icon">●</span></div>
+            <div class="cube-face front"><div class="cube-code"><span class="ck">function</span> <span class="cf">build</span>() {<br>&nbsp;&nbsp;<span class="ck">return</span> <span class="cg">success</span>;<br>}</div></div>
+            <div class="cube-face back"><div class="cube-code"><span class="ct">&lt;MSoft /&gt;</span><br><span class="cv">props</span>: <span class="cs">'dev'</span></div></div>
+            <div class="cube-face right"><div class="cube-code"><span class="ck">const</span> <span class="cv">x</span> = <span class="cf">await</span>()<br>;<span class="cg">deploy</span>()</div></div>
+            <div class="cube-face left"><div class="cube-code">{<br>&nbsp;&nbsp;<span class="cv">code</span>: <span class="cs">"clean"</span><br>}</div></div>
+            <div class="cube-face top"><div class="cube-code"><span class="ck">import</span> * <span class="ck">as</span><br>&nbsp;&nbsp;<span class="cv">MS</span> <span class="ck">from</span><br>&nbsp;&nbsp;<span class="cs">'msoft'</span></div></div>
+            <div class="cube-face bottom"><div class="cube-code"><span class="cc">// We code</span><br><span class="cc">// the future</span><br><span class="cg">✓</span></div></div>
         </div>
     </div>
 
     <div class="hero-content">
-        <div class="hero-badge">
-            <i data-lucide="rocket" style="width:15px;height:15px;"></i>
-            نبني المستقبل الرقمي
-        </div>
+        <div class="hero-badge"><i data-lucide="terminal" style="width:15px;height:15px"></i> npm run build:production</div>
         <h1>نحوّل أفكارك إلى<br><span class="highlight">تجارب رقمية استثنائية</span></h1>
         <p>شركة M Soft متخصصة في تطوير المواقع والتطبيقات بأحدث التقنيات. نصمم حلولاً رقمية مبتكرة تُعزز تواجدك الرقمي وتحقق أهدافك</p>
         <div class="hero-buttons">
-            <a href="#portfolio" class="btn-primary">
-                <i data-lucide="eye" style="width:18px;height:18px;"></i>
-                شاهد أعمالنا
-            </a>
-            <a href="#contact" class="btn-secondary">
-                <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
-                ابدأ مشروعك
-            </a>
+            <a href="#portfolio" class="btn-primary"><i data-lucide="eye" style="width:18px;height:18px"></i>شاهد أعمالنا</a>
+            <a href="#contact" class="btn-secondary">&lt;/&gt; ابدأ مشروعك</a>
         </div>
     </div>
 </section>
 
-<!-- About -->
 <section class="about" id="about">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="info" style="width:14px;height:14px;"></i> تعرّف علينا</div>
-        <h2 class="section-title">من <span style="color:var(--primary)">نحن</span>؟</h2>
-        <p class="section-desc">نحن فريق شغوف بالتكنولوجيا والتطوير، نسعى لتقديم أفضل الحلول الرقمية</p>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="info" style="width:14px;height:14px"></i> تعرّف علينا</div><h2 class="section-title">من <span style="color:var(--primary)">نحن</span>؟</h2><p class="section-desc">نحن فريق شغوف بالتكنولوجيا والتطوير، نسعى لتقديم أفضل الحلول الرقمية</p></div>
     <div class="about-grid">
         <div class="about-visual animate-on-scroll">
-            <div class="about-3d-card" id="aboutCard">
-                <span class="about-card-number">10+</span>
-                <div class="about-card-icon"><i data-lucide="code-2" style="width:46px;height:46px;"></i></div>
-                <h3>خبرة تتجاوز العشر سنوات</h3>
-                <p>في تطوير الحلول الرقمية المبتكرة للشركات والمؤسسات في المنطقة العربية والعالم</p>
-            </div>
+            <div class="about-floating-code"><div class="code-snippet-deco" style="width:200px;transform:rotateY(-8deg) rotateX(5deg);box-shadow:0 15px 30px rgba(0,0,0,.15)"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><span class="ck">class</span> <span class="cf">MSoft</span> {<br>&nbsp;&nbsp;<span class="cf">experience</span> = <span class="cv">5</span>;<br>&nbsp;&nbsp;<span class="cf">projects</span> = <span class="cv">250+</span>;<br>}</div></div>
+            <div class="about-3d-card" id="aboutCard"><span class="about-card-number">5+</span><div class="about-card-icon"><i data-lucide="code-2" style="width:46px;height:46px"></i></div><h3>خبرة 5 سنوات في التطوير</h3><p>في تطوير الحلول الرقمية المبتكرة للشركات والمؤسسات في المنطقة العربية والعالم</p></div>
         </div>
         <div class="about-text animate-on-scroll">
             <h2>نبني المستقبل <span>بكود</span></h2>
@@ -1083,863 +336,222 @@
     </div>
 </section>
 
-<!-- Services -->
 <section class="services" id="services">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="zap" style="width:14px;height:14px;"></i> ماذا نقدم</div>
-        <h2 class="section-title"><span style="color:var(--primary)">خدماتنا</span> المتميزة</h2>
-        <p class="section-desc">نقدم مجموعة شاملة من الخدمات الرقمية لتلبية جميع احتياجاتك</p>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="zap" style="width:14px;height:14px"></i> ماذا نقدم</div><h2 class="section-title"><span style="color:var(--primary)">خدماتنا</span> المتميزة</h2><p class="section-desc">نقدم مجموعة شاملة من الخدمات الرقمية لتلبية جميع احتياجاتك</p></div>
     <div class="services-grid">
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="globe"></i></div>
-            <h3>تطوير المواقع</h3>
-            <p>مواقع ويب احترافية وسريعة ومتجاوبة مع جميع الأجهزة، مبنية بأحدث التقنيات</p>
-        </div>
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="smartphone"></i></div>
-            <h3>تطبيقات الموبايل</h3>
-            <p>تطبيقات iOS و Android بأداء عالي وتصميم جذاب يضمن تجربة مستخدم ممتازة</p>
-        </div>
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="palette"></i></div>
-            <h3>تصميم UI/UX</h3>
-            <p>تصميم واجهات مستخدم مبتكرة وسهلة الاستخدام تعزز التفاعل والرضا</p>
-        </div>
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="database"></i></div>
-            <h3>أنظمة إدارة المحتوى</h3>
-            <p>أنظمة CMS مخصصة تُسهّل عليك إدارة محتوى موقعك بكل سهولة ويسر</p>
-        </div>
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="brain"></i></div>
-            <h3>حلول الذكاء الاصطناعي</h3>
-            <p>دمج تقنيات الذكاء الاصطناعي في أعمالك لتحسين الكفاءة واتخاذ قرارات أذكى</p>
-        </div>
-        <div class="service-card animate-on-scroll">
-            <div class="service-icon"><i data-lucide="shield-check"></i></div>
-            <h3>الأمن السيبراني</h3>
-            <p>حماية شاملة لبياناتك ومنصاتك الرقمية من التهديدات والاختراقات</p>
-        </div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="globe"></i></div><h3>تطوير المواقع</h3><p>مواقع ويب احترافية وسريعة ومتجاوبة مع جميع الأجهزة، مبنية بأحدث التقنيات</p><div class="service-code-hint">// npm install @msoft/web</div></div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="smartphone"></i></div><h3>تطبيقات الموبايل</h3><p>تطبيقات iOS و Android بأداء عالي وتصميم جذاب يضمن تجربة مستخدم ممتازة</p><div class="service-code-hint">// npx create-msoft-app</div></div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="palette"></i></div><h3>تصميم UI/UX</h3><p>تصميم واجهات مستخدم مبتكرة وسهلة الاستخدام تعزز التفاعل والرضا</p><div class="service-code-hint">// import { Design } from 'msoft'</div></div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="database"></i></div><h3>أنظمة إدارة المحتوى</h3><p>أنظمة CMS مخصصة تُسهّل عليك إدارة محتوى موقعك بكل سهولة ويسر</p><div class="service-code-hint">// const cms = new MSoftCMS()</div></div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="brain"></i></div><h3>حلول الذكاء الاصطناعي</h3><p>دمج تقنيات الذكاء الاصطناعي في أعمالك لتحسين الكفاءة واتخاذ قرارات أذكى</p><div class="service-code-hint">// await msoft.ai.predict()</div></div>
+        <div class="service-card animate-on-scroll"><div class="service-icon"><i data-lucide="shield-check"></i></div><h3>الأمن السيبراني</h3><p>حماية شاملة لبياناتك ومنصاتك الرقمية من التهديدات والاختراقات</p><div class="service-code-hint">// msoft.security.encrypt()</div></div>
     </div>
 </section>
 
-<!-- Portfolio -->
 <section class="portfolio" id="portfolio">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="briefcase" style="width:14px;height:14px;"></i> أعمالنا</div>
-        <h2 class="section-title">مشاريع <span style="color:var(--primary)">نفخر</span> بها</h2>
-        <p class="section-desc">نماذج من أعمالنا التي نفخر بتقديمها لعملائنا في مختلف المجالات</p>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="briefcase" style="width:14px;height:14px"></i> أعمالنا</div><h2 class="section-title">مشاريع <span style="color:var(--primary)">نفخر</span> بها</h2><p class="section-desc">نماذج من أعمالنا التي نفخر بتقديمها لعملائنا في مختلف المجالات</p></div>
     <div class="portfolio-grid">
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-ecommerce"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">storezone.sa</span></div><div class="mockup-body"><div class="mock-sidebar"><div class="mock-sidebar-item active" style="width:80%"></div><div class="mock-sidebar-item" style="width:60%"></div><div class="mock-sidebar-item" style="width:70%"></div><div class="mock-sidebar-item" style="width:50%"></div><div class="mock-sidebar-item" style="width:65%"></div><div style="flex:1"></div><div class="mock-sidebar-item" style="width:45%"></div></div><div class="mock-products"><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#e8d5b7,#c9a96e)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#b7cfe8,#6ea0d4)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#d4b7e8,#9a6ed4)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#b7e8c9,#6ed49a)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#e8b7b7,#d46e6e)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div><div class="mock-product"><div class="mock-product-img" style="background:linear-gradient(135deg,#e8e0b7,#d4c46e)"></div><div class="mock-product-title"></div><div class="mock-product-price"></div></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-design">تصميم</span><span class="project-tag tag-dev">تطوير</span></div><h3>منصة تجارة إلكترونية</h3><p>متجر إلكتروني متكامل بنظام دفع آمن وإدارة مخزون ذكية</p></div></div>
 
-        <!-- Project 1: E-commerce -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-ecommerce">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">storezone.sa</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-sidebar">
-                        <div class="mock-sidebar-item active" style="width:80%"></div>
-                        <div class="mock-sidebar-item" style="width:60%"></div>
-                        <div class="mock-sidebar-item" style="width:70%"></div>
-                        <div class="mock-sidebar-item" style="width:50%"></div>
-                        <div class="mock-sidebar-item" style="width:65%"></div>
-                        <div style="flex:1"></div>
-                        <div class="mock-sidebar-item" style="width:45%"></div>
-                    </div>
-                    <div class="mock-products">
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#e8d5b7,#c9a96e)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#b7cfe8,#6ea0d4)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#d4b7e8,#9a6ed4)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#b7e8c9,#6ed49a)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#e8b7b7,#d46e6e)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                        <div class="mock-product">
-                            <div class="mock-product-img" style="background:linear-gradient(135deg,#e8e0b7,#d4c46e)"></div>
-                            <div class="mock-product-title"></div>
-                            <div class="mock-product-price"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-design">تصميم</span>
-                    <span class="project-tag tag-dev">تطوير</span>
-                </div>
-                <h3>منصة تجارة إلكترونية</h3>
-                <p>متجر إلكتروني متكامل بنظام دفع آمن وإدارة مخزون ذكية</p>
-            </div>
-        </div>
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-health"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">fittrack.app</span></div><div class="mockup-body"><div class="mock-health-header"><div class="mock-health-greeting">مرحباً، معتصم 👋</div><div class="mock-health-avatar"></div></div><div class="mock-health-stats"><div class="mock-stat-card"><div class="mock-stat-icon" style="background:rgba(255,107,53,.15)"></div><div class="mock-stat-val" style="color:var(--secondary)">1,847</div><div class="mock-stat-lbl">سعرة حرارية</div></div><div class="mock-stat-card"><div class="mock-stat-icon" style="background:rgba(0,201,167,.15)"></div><div class="mock-stat-val" style="color:var(--accent)">8.2</div><div class="mock-stat-lbl">كم مشي</div></div><div class="mock-stat-card"><div class="mock-stat-icon" style="background:rgba(45,91,255,.15)"></div><div class="mock-stat-val" style="color:var(--primary)">7h</div><div class="mock-stat-lbl">نوم</div></div></div><div class="mock-health-chart"><div class="mock-bar" style="height:30%;opacity:.3"></div><div class="mock-bar" style="height:55%;opacity:.4"></div><div class="mock-bar" style="height:40%;opacity:.35"></div><div class="mock-bar" style="height:70%;opacity:.5"></div><div class="mock-bar" style="height:85%;opacity:.6"></div><div class="mock-bar" style="height:60%;opacity:.45"></div><div class="mock-bar" style="height:95%;opacity:.7"></div><div class="mock-bar" style="height:50%;opacity:.4"></div><div class="mock-bar" style="height:75%;opacity:.55"></div><div class="mock-bar" style="height:65%;opacity:.5"></div><div class="mock-bar" style="height:80%;opacity:.6"></div><div class="mock-bar" style="height:45%;opacity:.35"></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-mobile">موبايل</span><span class="project-tag tag-dev">تطوير</span></div><h3>تطبيق صحي ذكي</h3><p>تطبيق متابعة صحية مدعوم بالذكاء الاصطناعي لحساب السعرات والتغذية</p></div></div>
 
-        <!-- Project 2: Health App -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-health">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">fittrack.app</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-health-header">
-                        <div class="mock-health-greeting">مرحباً، معتصم 👋</div>
-                        <div class="mock-health-avatar"></div>
-                    </div>
-                    <div class="mock-health-stats">
-                        <div class="mock-stat-card">
-                            <div class="mock-stat-icon" style="background:rgba(255,107,53,0.15)"></div>
-                            <div class="mock-stat-val" style="color:var(--secondary)">1,847</div>
-                            <div class="mock-stat-lbl">سعرة حرارية</div>
-                        </div>
-                        <div class="mock-stat-card">
-                            <div class="mock-stat-icon" style="background:rgba(0,201,167,0.15)"></div>
-                            <div class="mock-stat-val" style="color:var(--accent)">8.2</div>
-                            <div class="mock-stat-lbl">كم مشي</div>
-                        </div>
-                        <div class="mock-stat-card">
-                            <div class="mock-stat-icon" style="background:rgba(45,91,255,0.15)"></div>
-                            <div class="mock-stat-val" style="color:var(--primary)">7h</div>
-                            <div class="mock-stat-lbl">نوم</div>
-                        </div>
-                    </div>
-                    <div class="mock-health-chart">
-                        <div class="mock-bar" style="height:30%;opacity:0.3"></div>
-                        <div class="mock-bar" style="height:55%;opacity:0.4"></div>
-                        <div class="mock-bar" style="height:40%;opacity:0.35"></div>
-                        <div class="mock-bar" style="height:70%;opacity:0.5"></div>
-                        <div class="mock-bar" style="height:85%;opacity:0.6"></div>
-                        <div class="mock-bar" style="height:60%;opacity:0.45"></div>
-                        <div class="mock-bar" style="height:95%;opacity:0.7"></div>
-                        <div class="mock-bar" style="height:50%;opacity:0.4"></div>
-                        <div class="mock-bar" style="height:75%;opacity:0.55"></div>
-                        <div class="mock-bar" style="height:65%;opacity:0.5"></div>
-                        <div class="mock-bar" style="height:80%;opacity:0.6"></div>
-                        <div class="mock-bar" style="height:45%;opacity:0.35"></div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-mobile">موبايل</span>
-                    <span class="project-tag tag-dev">تطوير</span>
-                </div>
-                <h3>تطبيق صحي ذكي</h3>
-                <p>تطبيق متابعة صحية مدعوم بالذكاء الاصطناعي لحساب السعرات والتغذية</p>
-            </div>
-        </div>
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-education"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">learnhub.academy</span></div><div class="mockup-body"><div class="mock-edu-nav"><div class="mock-edu-logo"></div><div class="mock-edu-link"></div><div class="mock-edu-link"></div><div class="mock-edu-link"></div></div><div class="mock-edu-courses"><div class="mock-course"><div class="mock-course-banner" style="background:linear-gradient(135deg,var(--primary),var(--primary-light))"></div><div class="mock-course-body"><div class="mock-course-title"></div><div class="mock-course-info"></div><div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:70%;background:var(--accent)"></div></div></div></div><div class="mock-course"><div class="mock-course-banner" style="background:linear-gradient(135deg,var(--accent),#5BDFC9)"></div><div class="mock-course-body"><div class="mock-course-title"></div><div class="mock-course-info"></div><div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:45%;background:var(--warm)"></div></div></div></div><div class="mock-course"><div class="mock-course-banner" style="background:linear-gradient(135deg,var(--secondary),#FF9060)"></div><div class="mock-course-body"><div class="mock-course-title"></div><div class="mock-course-info"></div><div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:90%;background:var(--primary)"></div></div></div></div><div class="mock-course"><div class="mock-course-banner" style="background:linear-gradient(135deg,var(--warm),#FFC86E)"></div><div class="mock-course-body"><div class="mock-course-title"></div><div class="mock-course-info"></div><div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:20%;background:var(--rose)"></div></div></div></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-design">تصميم</span><span class="project-tag tag-mobile">موبايل</span></div><h3>منصة تعليمية تفاعلية</h3><p>نظام إدارة تعلم متقدم مع فصول افتراضية وبث مباشر</p></div></div>
 
-        <!-- Project 3: Education -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-education">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">learnhub.academy</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-edu-nav">
-                        <div class="mock-edu-logo"></div>
-                        <div class="mock-edu-link"></div>
-                        <div class="mock-edu-link"></div>
-                        <div class="mock-edu-link"></div>
-                    </div>
-                    <div class="mock-edu-courses">
-                        <div class="mock-course">
-                            <div class="mock-course-banner" style="background:linear-gradient(135deg,var(--primary),var(--primary-light))"></div>
-                            <div class="mock-course-body">
-                                <div class="mock-course-title"></div>
-                                <div class="mock-course-info"></div>
-                                <div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:70%;background:var(--accent)"></div></div>
-                            </div>
-                        </div>
-                        <div class="mock-course">
-                            <div class="mock-course-banner" style="background:linear-gradient(135deg,var(--accent),#5BDFC9)"></div>
-                            <div class="mock-course-body">
-                                <div class="mock-course-title"></div>
-                                <div class="mock-course-info"></div>
-                                <div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:45%;background:var(--warm)"></div></div>
-                            </div>
-                        </div>
-                        <div class="mock-course">
-                            <div class="mock-course-banner" style="background:linear-gradient(135deg,var(--secondary),#FF9060)"></div>
-                            <div class="mock-course-body">
-                                <div class="mock-course-title"></div>
-                                <div class="mock-course-info"></div>
-                                <div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:90%;background:var(--primary)"></div></div>
-                            </div>
-                        </div>
-                        <div class="mock-course">
-                            <div class="mock-course-banner" style="background:linear-gradient(135deg,var(--warm),#FFC86E)"></div>
-                            <div class="mock-course-body">
-                                <div class="mock-course-title"></div>
-                                <div class="mock-course-info"></div>
-                                <div class="mock-course-progress"><div class="mock-course-progress-fill" style="width:20%;background:var(--rose)"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-design">تصميم</span>
-                    <span class="project-tag tag-mobile">موبايل</span>
-                </div>
-                <h3>منصة تعليمية تفاعلية</h3>
-                <p>نظام إدارة تعلم متقدم مع فصول افتراضية وبث مباشر</p>
-            </div>
-        </div>
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-finance"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">walletpro.io</span></div><div class="mockup-body"><div class="mock-fin-sidebar"><div class="mock-fin-item active" style="width:75%"></div><div class="mock-fin-item" style="width:60%"></div><div class="mock-fin-item" style="width:70%"></div><div class="mock-fin-item" style="width:55%"></div><div class="mock-fin-item" style="width:65%"></div><div style="flex:1"></div><div class="mock-fin-item" style="width:40%"></div></div><div class="mock-fin-main"><div class="mock-fin-cards"><div class="mock-fin-card"><div class="mock-fin-label">الرصيد</div><div class="mock-fin-value">٤٨,٥٢٠</div><div class="mock-fin-change" style="color:var(--accent)">↑ 12%</div></div><div class="mock-fin-card"><div class="mock-fin-label">المصروفات</div><div class="mock-fin-value">١٢,٣٤٠</div><div class="mock-fin-change" style="color:var(--secondary)">↓ 5%</div></div></div><div class="mock-fin-chart"><div class="mock-fin-bar" style="height:40%;background:var(--primary);opacity:.5"></div><div class="mock-fin-bar" style="height:65%;background:var(--primary);opacity:.6"></div><div class="mock-fin-bar" style="height:50%;background:var(--primary);opacity:.5"></div><div class="mock-fin-bar" style="height:80%;background:var(--accent);opacity:.6"></div><div class="mock-fin-bar" style="height:55%;background:var(--primary);opacity:.5"></div><div class="mock-fin-bar" style="height:70%;background:var(--primary);opacity:.6"></div><div class="mock-fin-bar" style="height:90%;background:var(--accent);opacity:.7"></div><div class="mock-fin-bar" style="height:60%;background:var(--primary);opacity:.5"></div></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-dev">تطوير</span><span class="project-tag tag-design">تصميم</span></div><h3>تطبيق إدارة مالية</h3><p>لوحة تحكم مالية متكاملة لتتبع المصروفات وإدارة الميزانيات</p></div></div>
 
-        <!-- Project 4: Finance -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-finance">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">walletpro.io</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-fin-sidebar">
-                        <div class="mock-fin-item active" style="width:75%"></div>
-                        <div class="mock-fin-item" style="width:60%"></div>
-                        <div class="mock-fin-item" style="width:70%"></div>
-                        <div class="mock-fin-item" style="width:55%"></div>
-                        <div class="mock-fin-item" style="width:65%"></div>
-                        <div style="flex:1"></div>
-                        <div class="mock-fin-item" style="width:40%"></div>
-                    </div>
-                    <div class="mock-fin-main">
-                        <div class="mock-fin-cards">
-                            <div class="mock-fin-card">
-                                <div class="mock-fin-label">الرصيد</div>
-                                <div class="mock-fin-value">٤٨,٥٢٠</div>
-                                <div class="mock-fin-change" style="color:var(--accent)">↑ 12%</div>
-                            </div>
-                            <div class="mock-fin-card">
-                                <div class="mock-fin-label">المصروفات</div>
-                                <div class="mock-fin-value">١٢,٣٤٠</div>
-                                <div class="mock-fin-change" style="color:var(--secondary)">↓ 5%</div>
-                            </div>
-                        </div>
-                        <div class="mock-fin-chart">
-                            <div class="mock-fin-bar" style="height:40%;background:var(--primary);opacity:0.5"></div>
-                            <div class="mock-fin-bar" style="height:65%;background:var(--primary);opacity:0.6"></div>
-                            <div class="mock-fin-bar" style="height:50%;background:var(--primary);opacity:0.5"></div>
-                            <div class="mock-fin-bar" style="height:80%;background:var(--accent);opacity:0.6"></div>
-                            <div class="mock-fin-bar" style="height:55%;background:var(--primary);opacity:0.5"></div>
-                            <div class="mock-fin-bar" style="height:70%;background:var(--primary);opacity:0.6"></div>
-                            <div class="mock-fin-bar" style="height:90%;background:var(--accent);opacity:0.7"></div>
-                            <div class="mock-fin-bar" style="height:60%;background:var(--primary);opacity:0.5"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-dev">تطوير</span>
-                    <span class="project-tag tag-design">تصميم</span>
-                </div>
-                <h3>تطبيق إدارة مالية</h3>
-                <p>لوحة تحكم مالية متكاملة لتتبع المصروفات وإدارة الميزانيات</p>
-            </div>
-        </div>
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-realestate"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">aqaar.com</span></div><div class="mockup-body"><div class="mock-re-search"><div class="mock-re-input"></div><div class="mock-re-btn"></div></div><div class="mock-re-properties"><div class="mock-property"><div class="mock-property-img" style="background:linear-gradient(135deg,#d4c4a8,#b8a080)"></div><div class="mock-property-body"><div class="mock-property-name"></div><div class="mock-property-price"></div></div></div><div class="mock-property"><div class="mock-property-img" style="background:linear-gradient(135deg,#a8c4d4,#80a8b8)"></div><div class="mock-property-body"><div class="mock-property-name"></div><div class="mock-property-price"></div></div></div><div class="mock-property"><div class="mock-property-img" style="background:linear-gradient(135deg,#c4d4a8,#a0b880)"></div><div class="mock-property-body"><div class="mock-property-name"></div><div class="mock-property-price"></div></div></div><div class="mock-property"><div class="mock-property-img" style="background:linear-gradient(135deg,#d4a8c4,#b880a8)"></div><div class="mock-property-body"><div class="mock-property-name"></div><div class="mock-property-price"></div></div></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-design">تصميم</span><span class="project-tag tag-dev">تطوير</span></div><h3>منصة عقارية ذكية</h3><p>نظام متكامل لعرض وإدارة العقارات مع جولات افتراضية 3D</p></div></div>
 
-        <!-- Project 5: Real Estate -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-realestate">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">aqaar.com</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-re-search">
-                        <div class="mock-re-input"></div>
-                        <div class="mock-re-btn"></div>
-                    </div>
-                    <div class="mock-re-properties">
-                        <div class="mock-property">
-                            <div class="mock-property-img" style="background:linear-gradient(135deg,#d4c4a8,#b8a080)"></div>
-                            <div class="mock-property-body">
-                                <div class="mock-property-name"></div>
-                                <div class="mock-property-price"></div>
-                            </div>
-                        </div>
-                        <div class="mock-property">
-                            <div class="mock-property-img" style="background:linear-gradient(135deg,#a8c4d4,#80a8b8)"></div>
-                            <div class="mock-property-body">
-                                <div class="mock-property-name"></div>
-                                <div class="mock-property-price"></div>
-                            </div>
-                        </div>
-                        <div class="mock-property">
-                            <div class="mock-property-img" style="background:linear-gradient(135deg,#c4d4a8,#a0b880)"></div>
-                            <div class="mock-property-body">
-                                <div class="mock-property-name"></div>
-                                <div class="mock-property-price"></div>
-                            </div>
-                        </div>
-                        <div class="mock-property">
-                            <div class="mock-property-img" style="background:linear-gradient(135deg,#d4a8c4,#b880a8)"></div>
-                            <div class="mock-property-body">
-                                <div class="mock-property-name"></div>
-                                <div class="mock-property-price"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-design">تصميم</span>
-                    <span class="project-tag tag-dev">تطوير</span>
-                </div>
-                <h3>منصة عقارية ذكية</h3>
-                <p>نظام متكامل لعرض وإدارة العقارات مع جولات افتراضية 3D</p>
-            </div>
-        </div>
-
-        <!-- Project 6: Dashboard -->
-        <div class="project-card animate-on-scroll">
-            <div class="project-mockup mock-dashboard">
-                <div class="mockup-toolbar">
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-dot"></span>
-                    <span class="mockup-url">analytix.dev</span>
-                </div>
-                <div class="mockup-body">
-                    <div class="mock-dash-sidebar">
-                        <div class="mock-dash-item active" style="width:80%"></div>
-                        <div class="mock-dash-item" style="width:60%"></div>
-                        <div class="mock-dash-item" style="width:70%"></div>
-                        <div class="mock-dash-item" style="width:50%"></div>
-                        <div class="mock-dash-item" style="width:65%"></div>
-                    </div>
-                    <div class="mock-dash-main">
-                        <div class="mock-dash-top">
-                            <div class="mock-dash-metric">
-                                <div class="mock-dash-metric-label">الزيارات</div>
-                                <div class="mock-dash-metric-val">24K</div>
-                            </div>
-                            <div class="mock-dash-metric">
-                                <div class="mock-dash-metric-label">التحويلات</div>
-                                <div class="mock-dash-metric-val" style="color:var(--accent)">847</div>
-                            </div>
-                            <div class="mock-dash-metric">
-                                <div class="mock-dash-metric-label">الإيرادات</div>
-                                <div class="mock-dash-metric-val" style="color:var(--secondary)">٣٢K</div>
-                            </div>
-                        </div>
-                        <div class="mock-dash-chart">
-                            <div class="mock-fin-bar" style="height:35%;background:var(--primary);opacity:0.4"></div>
-                            <div class="mock-fin-bar" style="height:55%;background:var(--primary);opacity:0.5"></div>
-                            <div class="mock-fin-bar" style="height:45%;background:var(--primary);opacity:0.45"></div>
-                            <div class="mock-fin-bar" style="height:75%;background:var(--accent);opacity:0.6"></div>
-                            <div class="mock-fin-bar" style="height:60%;background:var(--primary);opacity:0.5"></div>
-                            <div class="mock-fin-bar" style="height:85%;background:var(--accent);opacity:0.65"></div>
-                            <div class="mock-fin-bar" style="height:50%;background:var(--primary);opacity:0.45"></div>
-                            <div class="mock-fin-bar" style="height:70%;background:var(--primary);opacity:0.55"></div>
-                            <div class="mock-fin-bar" style="height:95%;background:var(--accent);opacity:0.7"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <a href="#"><i data-lucide="external-link" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
-                </div>
-            </div>
-            <div class="project-info">
-                <div class="project-tags">
-                    <span class="project-tag tag-dev">تطوير</span>
-                    <span class="project-tag tag-mobile">موبايل</span>
-                </div>
-                <h3>لوحة تحكم تحليلية</h3>
-                <p>داشبورد متقدم لتحليل البيانات مع رسوم بيانية تفاعلية وتقارير ذكية</p>
-            </div>
-        </div>
-
+        <div class="project-card animate-on-scroll"><div class="project-mockup mock-dashboard"><div class="mockup-toolbar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-url">analytix.dev</span></div><div class="mockup-body"><div class="mock-dash-sidebar"><div class="mock-dash-item active" style="width:80%"></div><div class="mock-dash-item" style="width:60%"></div><div class="mock-dash-item" style="width:70%"></div><div class="mock-dash-item" style="width:50%"></div><div class="mock-dash-item" style="width:65%"></div></div><div class="mock-dash-main"><div class="mock-dash-top"><div class="mock-dash-metric"><div class="mock-dash-metric-label">الزيارات</div><div class="mock-dash-metric-val">24K</div></div><div class="mock-dash-metric"><div class="mock-dash-metric-label">التحويلات</div><div class="mock-dash-metric-val" style="color:var(--accent)">847</div></div><div class="mock-dash-metric"><div class="mock-dash-metric-label">الإيرادات</div><div class="mock-dash-metric-val" style="color:var(--secondary)">٣٢K</div></div></div><div class="mock-dash-chart"><div class="mock-fin-bar" style="height:35%;background:var(--primary);opacity:.4"></div><div class="mock-fin-bar" style="height:55%;background:var(--primary);opacity:.5"></div><div class="mock-fin-bar" style="height:45%;background:var(--primary);opacity:.45"></div><div class="mock-fin-bar" style="height:75%;background:var(--accent);opacity:.6"></div><div class="mock-fin-bar" style="height:60%;background:var(--primary);opacity:.5"></div><div class="mock-fin-bar" style="height:85%;background:var(--accent);opacity:.65"></div><div class="mock-fin-bar" style="height:50%;background:var(--primary);opacity:.45"></div><div class="mock-fin-bar" style="height:70%;background:var(--primary);opacity:.55"></div><div class="mock-fin-bar" style="height:95%;background:var(--accent);opacity:.7"></div></div></div></div><div class="project-overlay"><a href="#"><i data-lucide="external-link" style="width:18px;height:18px"></i></a><a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a></div></div><div class="project-info"><div class="project-tags"><span class="project-tag tag-dev">تطوير</span><span class="project-tag tag-mobile">موبايل</span></div><h3>لوحة تحكم تحليلية</h3><p>داشبورد متقدم لتحليل البيانات مع رسوم بيانية تفاعلية وتقارير ذكية</p></div></div>
     </div>
 </section>
 
-<!-- Stats -->
 <section class="stats">
     <div class="stats-grid">
-        <div class="stat-item">
-            <div class="stat-num" data-target="250">0</div>
-            <div class="stat-label">مشروع مُنجز</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" data-target="120">0</div>
-            <div class="stat-label">عميل سعيد</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" data-target="15">0</div>
-            <div class="stat-label">سنة خبرة</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" data-target="30">0</div>
-            <div class="stat-label">فرد في الفريق</div>
-        </div>
+        <div class="stat-item"><div class="stat-num" data-target="250">0</div><div class="stat-label">مشروع مُنجز</div></div>
+        <div class="stat-item"><div class="stat-num" data-target="120">0</div><div class="stat-label">عميل سعيد</div></div>
+        <div class="stat-item"><div class="stat-num" data-target="5">0</div><div class="stat-label">سنة خبرة</div></div>
+        <div class="stat-item"><div class="stat-num" data-target="30">0</div><div class="stat-label">فرد في الفريق</div></div>
     </div>
 </section>
 
-<!-- Founder -->
 <section class="founder" id="founder">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="crown" style="width:14px;height:14px;"></i> القيادة</div>
-        <h2 class="section-title">مؤسس <span style="color:var(--primary)">M Soft</span></h2>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="crown" style="width:14px;height:14px"></i> القيادة</div><h2 class="section-title">مؤسس <span style="color:var(--primary)">M Soft</span></h2></div>
     <div class="founder-grid">
         <div class="founder-img-wrapper animate-on-scroll">
+            <div class="founder-floating-code"><div class="code-snippet-deco" style="width:210px;transform:rotateY(6deg) rotateX(-3deg);box-shadow:0 15px 30px rgba(0,0,0,.15)"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><span class="ck">const</span> <span class="cv">founder</span> = {<br>&nbsp;&nbsp;<span class="cf">name</span>: <span class="cs">"معتصم"</span>,<br>&nbsp;&nbsp;<span class="cf">role</span>: <span class="cs">"CEO"</span>,<br>&nbsp;&nbsp;<span class="cf">exp</span>: <span class="cv">5</span><br>};</div></div>
             <div class="founder-img-card" id="founderCard">
-                <img src="./img/WhatsApp Image 2026-05-30 at 7.00.27 PM.jpeg" alt="معتصم محمود - مؤسس M Soft">
+                <img src="./img/WhatsApp Image 2026-05-30 at 7.00.27 PM.jpeg" alt="معتصم محمود">
                 <div class="founder-img-frame"></div>
                 <div class="founder-social-float">
-                    <a href="#"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="twitter" style="width:18px;height:18px;"></i></a>
-                    <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
+                    <a href="https://wa.me/201505865466" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                    <a href="#"><i data-lucide="linkedin" style="width:18px;height:18px"></i></a>
+                    <a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a>
                 </div>
             </div>
         </div>
         <div class="founder-text animate-on-scroll">
             <h2>معتصم <span>محمود</span></h2>
-            <div class="founder-role">
-                <i data-lucide="star" style="width:16px;height:16px;"></i>
-                المؤسس والمدير التنفيذي
-            </div>
-            <p>بدأ معتصم رحلته في عالم البرمجة منذ أكثر من 15 عاماً بشغف لا ينتهي لصنع المستقبل الرقمي. تأسست شركة M Soft على يديه برؤية واضحة: تقديم حلول تقنية عالمية المستوى من قلب العالم العربي.</p>
-            <p>قاد معتصم أكثر من 250 مشروعاً ناجحاً وبناء فريق من ألمع المطورين والمصممين. يؤمن بأن التكنولوجيا يجب أن تكون في خدمة الإنسان، وأن كل سطر كود يُكتب يجب أن يصنع فرقاً حقيقياً.</p>
+            <div class="founder-role"><i data-lucide="star" style="width:16px;height:16px"></i>المؤسس والمدير التنفيذي</div>
+            <p>بدأ معتصم رحلته في عالم البرمجة منذ أكثر من 5 سنوات بشغف لا ينتهي لصنع المستقبل الرقمي. تأسست شركة M Soft على يديه برؤية واضحة: تقديم حلول تقنية عالمية المستوى من قلب العالم العربي.</p>
+            <p>قاد معتصم عشرات المشاريع الناجحة وبناء فريق من ألمع المطورين والمصممين. يؤمن بأن التكنولوجيا يجب أن تكون في خدمة الإنسان، وأن كل سطر كود يُكتب يجب أن يصنع فرقاً حقيقياً.</p>
             <div class="founder-stats">
-                <div class="founder-stat">
-                    <div class="founder-stat-num">15+</div>
-                    <div class="founder-stat-label">سنة خبرة</div>
-                </div>
-                <div class="founder-stat">
-                    <div class="founder-stat-num">250+</div>
-                    <div class="founder-stat-label">مشروع</div>
-                </div>
-                <div class="founder-stat">
-                    <div class="founder-stat-num">50+</div>
-                    <div class="founder-stat-label">جائزة</div>
-                </div>
+                <div class="founder-stat"><div class="founder-stat-num">5+</div><div class="founder-stat-label">سنة خبرة</div></div>
+                <div class="founder-stat"><div class="founder-stat-num">250+</div><div class="founder-stat-label">مشروع</div></div>
+                <div class="founder-stat"><div class="founder-stat-num">50+</div><div class="founder-stat-label">جائزة</div></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Testimonials -->
 <section class="testimonials" id="testimonials">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="heart" style="width:14px;height:14px;"></i> آراء العملاء</div>
-        <h2 class="section-title">ماذا يقول <span style="color:var(--primary)">عملاؤنا</span></h2>
-        <p class="section-desc">رضا عملائنا هو أكبر إنجازاتنا</p>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="heart" style="width:14px;height:14px"></i> آراء العملاء</div><h2 class="section-title">ماذا يقول <span style="color:var(--primary)">عملاؤنا</span></h2></div>
     <div class="testimonials-grid">
-        <div class="testimonial-card animate-on-scroll">
-            <span class="testimonial-quote">"</span>
-            <div class="testimonial-stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-            </div>
-            <p>تعاملنا مع M Soft كان تجربة استثنائية. فريق محترف وملتزم بالمواعيد وجودة العمل تفوق توقعاتنا</p>
-            <div class="testimonial-author">
-                <img src="https://picsum.photos/seed/client-ahmed-k/80/80.jpg" alt="عميل">
-                <div>
-                    <div class="testimonial-author-name">أحمد الخالدي</div>
-                    <div class="testimonial-author-role">مدير تقنية - شركة نوفا</div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card animate-on-scroll">
-            <span class="testimonial-quote">"</span>
-            <div class="testimonial-stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-            </div>
-            <p>الموقع الذي طوّرته M Soft لمتجرنا الإلكتروني رفع مبيعاتنا بنسبة 200%. شكراً لكم على هذا العمل الرائع</p>
-            <div class="testimonial-author">
-                <img src="https://picsum.photos/seed/client-sara-m/80/80.jpg" alt="عميلة">
-                <div>
-                    <div class="testimonial-author-name">سارة المنصوري</div>
-                    <div class="testimonial-author-role">مؤسسة - متجر لافندر</div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card animate-on-scroll">
-            <span class="testimonial-quote">"</span>
-            <div class="testimonial-stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-            </div>
-            <p>التطبيق الذي صنعوه لنا كان مذهلاً. التصميم جميل والأداء ممتاز والدعم الفني متواصل. أنصح بهم بشدة</p>
-            <div class="testimonial-author">
-                <img src="https://picsum.photos/seed/client-khaled-o/80/80.jpg" alt="عميل">
-                <div>
-                    <div class="testimonial-author-name">خالد العمري</div>
-                    <div class="testimonial-author-role">رائد أعمال</div>
-                </div>
-            </div>
-        </div>
+        <div class="testimonial-card animate-on-scroll"><span class="testimonial-quote">"</span><div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p>تعاملنا مع M Soft كان تجربة استثنائية. فريق محترف وملتزم بالمواعيد وجودة العمل تفوق توقعاتنا</p><div class="testimonial-author"><img src="https://picsum.photos/seed/client-ahmed-k/80/80.jpg" alt=""><div><div class="testimonial-author-name">أحمد الخالدي</div><div class="testimonial-author-role">مدير تقنية - شركة نوفا</div></div></div></div>
+        <div class="testimonial-card animate-on-scroll"><span class="testimonial-quote">"</span><div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p>الموقع الذي طوّرته M Soft لمتجرنا الإلكتروني رفع مبيعاتنا بنسبة 200%. شكراً لكم على هذا العمل الرائع</p><div class="testimonial-author"><img src="https://picsum.photos/seed/client-sara-m/80/80.jpg" alt=""><div><div class="testimonial-author-name">سارة المنصوري</div><div class="testimonial-author-role">مؤسسة - متجر لافندر</div></div></div></div>
+        <div class="testimonial-card animate-on-scroll"><span class="testimonial-quote">"</span><div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p>التطبيق الذي صنعوه لنا كان مذهلاً. التصميم جميل والأداء ممتاز والدعم الفني متواصل. أنصح بهم بشدة</p><div class="testimonial-author"><img src="https://picsum.photos/seed/client-khaled-o/80/80.jpg" alt=""><div><div class="testimonial-author-name">خالد العمري</div><div class="testimonial-author-role">رائد أعمال</div></div></div></div>
     </div>
 </section>
 
-<!-- Tech Stack -->
 <section class="tech-stack">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="cpu" style="width:14px;height:14px;"></i> التقنيات</div>
-        <h2 class="section-title">التقنيات التي <span style="color:var(--primary)">نستخدمها</span></h2>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="cpu" style="width:14px;height:14px"></i> التقنيات</div><h2 class="section-title">التقنيات التي <span style="color:var(--primary)">نستخدمها</span></h2></div>
     <div class="tech-grid">
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 228"><path fill="#E44D26" d="M255.004 0l-23.186 206.748L127.46 227.82 24.047 206.753.96 0h254.044z"/><path fill="#F16529" d="M128 210.774l83.977-22.348 19.74-206.62H128v228.968z"/><path fill="#EBEBEB" d="M82.82 66.09H128V44.254H58.916l.522 5.826 5.39 58.562H128V86.808H84.882L82.82 66.09zm6.796 77.878H67.627l3.043 33.14 57.23 15.428.1-.028v-22.764l-.1.026-31.118-8.252-1.992-21.55z"/><path fill="#FFF" d="M127.89 86.808v21.834h34.413l-3.243 35.168-31.17 8.257v22.764l57.275-15.428.42-4.67 6.55-71.905.685-7.494H127.89zm0-44.254v21.836h67.538l.56-6.164 1.274-13.846.522-5.826H127.89z"/></svg>
-            <span>HTML5</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 228"><path fill="#1572B6" d="M255.004 0l-23.186 206.748L127.46 227.82 24.047 206.753.96 0h254.044z"/><path fill="#33A9DC" d="M128 210.774l83.977-22.348 19.74-206.62H128v228.968z"/><path fill="#FFF" d="M82.82 66.09H128V44.254H58.916l.522 5.826 5.39 58.562H128V86.808H84.882L82.82 66.09zm6.796 77.878H67.627l3.043 33.14 57.23 15.428.1-.028v-22.764l-.1.026-31.118-8.252-1.992-21.55z"/><path fill="#EBEBEB" d="M127.89 86.808v21.834h34.413l-3.243 35.168-31.17 8.257v22.764l57.275-15.428.42-4.67 6.55-71.905.685-7.494H127.89zm0-44.254v21.836h67.538l.56-6.164 1.274-13.846.522-5.826H127.89z"/></svg>
-            <span>CSS3</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 222"><path fill="#F7DF1E" d="M0 0h256v222H0z"/><path fill="#000" d="M67.312 185.837l19.593-11.856c3.78 6.701 7.218 12.371 15.465 12.371 7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259-19.245 0-30.416-9.967-36.087-21.996M152.381 183.149l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607 9.969 0 16.325-4.984 16.325-11.858 0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257 0-18.044 13.747-31.792 35.228-31.792 15.294 0 26.292 5.328 34.196 19.247L210.29 113.41c-4.125-7.389-8.591-10.31-15.465-10.31-7.046 0-11.514 4.468-11.514 10.31 0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804 0 21.654-17.012 33.51-39.867 33.51-22.339 0-36.774-10.654-43.819-24.574"/></svg>
-            <span>JavaScript</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 228"><path fill="#61DAFB" d="M210.483 73.824a171.49 171.49 0 00-8.24-2.597c.465-1.9.893-3.777 1.273-5.621 6.238-30.281 2.16-54.676-11.769-62.708-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 00-6.375 5.848 155.866 155.866 0 00-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233 50.33 10.957 46.379 33.89 51.964 62.588a170.974 170.974 0 001.503 6.743 171.682 171.682 0 00-9.279 3.058C17.33 82.562 0 97.949 0 113.944c0 16.558 18.525 33.096 46.39 43.416a170.536 170.536 0 007.697 2.398 169.61 169.61 0 00-1.617 7.232c-5.31 28.2-1.163 50.592 12.14 58.26 13.745 7.935 36.812-.22 59.273-19.855a165.58 165.58 0 005.724-5.292 169.23 169.23 0 006.81 6.166c21.63 18.606 42.77 26.133 56.072 18.416 13.74-7.948 18.164-31.944 12.4-61.178a146.697 146.697 0 00-1.177-5.552c1.81-.536 3.58-1.103 5.304-1.706 28.894-10.157 48.09-26.49 48.09-43.583-.003-16.08-18.327-32.056-47.593-42.166z"/></svg>
-            <span>React</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 185"><path fill="#4FC08D" d="M244.94 9.738c-11.562-7.736-40.504 2.508-73.063 25.384C132.768 25.378 91.492 18.794 52.378 25.96 38.976 10.07 25.826.168 16.68.168 7.534.168 2.676 4.934.796 9.966c-5.268 14.12 6.276 41.716 30.992 70.296C12.822 119.164 4.34 162.638 19.036 176.278c5.136 4.764 13.128 4.34 22.608-.812 10.132 5.952 22.692 10.436 37.084 12.672 16.24 2.52 33.792 2.476 50.536-.128 18.408-2.86 34.392-8.516 46.228-16.112 7.26 2.552 13.576 3.756 18.62 3.756 5.704 0 9.84-1.68 12.264-4.916 8.02-10.88-.164-37.272-21.08-65.548 26.916-32.16 40.392-63.316 31.04-78.336-1.352-2.176-3.244-3.96-5.596-5.168z"/></svg>
-            <span>Vue.js</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 254"><path fill="#2496ED" d="M236.842 117.68c8.12-3.892 15.976-10.076 15.976-22.568 0-16.504-14.4-23.812-33.208-23.812H184.29c.326-5.326.588-11.198.588-17.578 0-13.496-2.216-24.242-7.88-31.808C171.336 14.41 162.452 9.938 150.51 9.938c-21.38 0-26.198 24.938-28.584 40.054l-.736 4.636c-2.336 14.668-5.182 28.012-11.022 37.33-5.316 8.482-12.408 13.634-23.406 15.224v-3.942H0v150.164h86.762v-21.96c12.67 2.232 33.398 8.116 55.008 14.574 26.966 8.06 55.544 16.61 73.906 16.61 23.034 0 37.68-10.282 37.68-30.368 0-6.372-1.722-12.086-4.652-17.042 10.232-4.534 18.312-13.536 18.312-27.902 0-8.794-3.052-15.654-7.728-20.956 10.576-5.56 17.958-14.862 17.958-27.766 0-10.166-4.492-18.448-12.944-23.712a30.472 30.472 0 00-7.46-3.158z"/></svg>
-            <span>Docker</span>
-        </div>
-        <div class="tech-item animate-on-scroll">
-            <svg width="32" height="32" viewBox="0 0 256 228"><path fill="#0096D6" d="M10.432 155.128l16.768-9.946c3.236 5.738 6.176 10.586 13.226 10.586 6.764 0 11.032-2.646 11.032-12.938V0h20.586v143.274c0 21.318-12.53 31.028-30.824 31.028-16.534 0-26.116-8.564-30.968-18.888"/><path fill="#0096D6" d="M90.432 152.668l16.764-9.94c4.424 7.222 10.162 12.534 20.322 12.534 8.548 0 14-4.27 14-10.17 0-7.08-5.602-9.588-15.056-13.712l-5.162-2.214c-14.904-6.348-24.808-14.31-24.808-31.11 0-15.49 11.798-27.284 30.246-27.284 13.138 0 22.588 4.568 29.38 16.526l-16.096 10.346c-3.544-6.352-7.38-8.858-13.284-8.858-6.044 0-9.876 3.836-9.876 8.858 0 6.196 3.84 8.702 12.694 12.536l5.162 2.21c17.544 7.526 27.444 15.194 27.444 32.434 0 18.588-14.608 28.76-34.244 28.76-19.194 0-31.592-9.148-37.636-21.116"/></svg>
-            <span>Node.js</span>
-        </div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 228"><path fill="#E44D26" d="M255.004 0l-23.186 206.748L127.46 227.82 24.047 206.753.96 0h254.044z"/><path fill="#F16529" d="M128 210.774l83.977-22.348 19.74-206.62H128v228.968z"/><path fill="#EBEBEB" d="M82.82 66.09H128V44.254H58.916l.522 5.826 5.39 58.562H128V86.808H84.882L82.82 66.09zm6.796 77.878H67.627l3.043 33.14 57.23 15.428.1-.028v-22.764l-.1.026-31.118-8.252-1.992-21.55z"/><path fill="#FFF" d="M127.89 86.808v21.834h34.413l-3.243 35.168-31.17 8.257v22.764l57.275-15.428.42-4.67 6.55-71.905.685-7.494H127.89zm0-44.254v21.836h67.538l.56-6.164 1.274-13.846.522-5.826H127.89z"/></svg><span>HTML5</span></div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 222"><path fill="#F7DF1E" d="M0 0h256v222H0z"/><path fill="#000" d="M67.312 185.837l19.593-11.856c3.78 6.701 7.218 12.371 15.465 12.371 7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259-19.245 0-30.416-9.967-36.087-21.996M152.381 183.149l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607 9.969 0 16.325-4.984 16.325-11.858 0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257 0-18.044 13.747-31.792 35.228-31.792 15.294 0 26.292 5.328 34.196 19.247L210.29 113.41c-4.125-7.389-8.591-10.31-15.465-10.31-7.046 0-11.514 4.468-11.514 10.31 0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804 0 21.654-17.012 33.51-39.867 33.51-22.339 0-36.774-10.654-43.819-24.574"/></svg><span>JavaScript</span></div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 228"><path fill="#61DAFB" d="M210.483 73.824a171.49 171.49 0 00-8.24-2.597c.465-1.9.893-3.777 1.273-5.621 6.238-30.281 2.16-54.676-11.769-62.708-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 00-6.375 5.848 155.866 155.866 0 00-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233 50.33 10.957 46.379 33.89 51.964 62.588a170.974 170.974 0 001.503 6.743 171.682 171.682 0 00-9.279 3.058C17.33 82.562 0 97.949 0 113.944c0 16.558 18.525 33.096 46.39 43.416a170.536 170.536 0 007.697 2.398 169.61 169.61 0 00-1.617 7.232c-5.31 28.2-1.163 50.592 12.14 58.26 13.745 7.935 36.812-.22 59.273-19.855a165.58 165.58 0 005.724-5.292 169.23 169.23 0 006.81 6.166c21.63 18.606 42.77 26.133 56.072 18.416 13.74-7.948 18.164-31.944 12.4-61.178a146.697 146.697 0 00-1.177-5.552c1.81-.536 3.58-1.103 5.304-1.706 28.894-10.157 48.09-26.49 48.09-43.583-.003-16.08-18.327-32.056-47.593-42.166z"/></svg><span>React</span></div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 185"><path fill="#4FC08D" d="M244.94 9.738c-11.562-7.736-40.504 2.508-73.063 25.384C132.768 25.378 91.492 18.794 52.378 25.96 38.976 10.07 25.826.168 16.68.168 7.534.168 2.676 4.934.796 9.966c-5.268 14.12 6.276 41.716 30.992 70.296C12.822 119.164 4.34 162.638 19.036 176.278c5.136 4.764 13.128 4.34 22.608-.812 10.132 5.952 22.692 10.436 37.084 12.672 16.24 2.52 33.792 2.476 50.536-.128 18.408-2.86 34.392-8.516 46.228-16.112 7.26 2.552 13.576 3.756 18.62 3.756 5.704 0 9.84-1.68 12.264-4.916 8.02-10.88-.164-37.272-21.08-65.548 26.916-32.16 40.392-63.316 31.04-78.336-1.352-2.176-3.244-3.96-5.596-5.168z"/></svg><span>Vue.js</span></div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 228"><path fill="#0096D6" d="M10.432 155.128l16.768-9.946c3.236 5.738 6.176 10.586 13.226 10.586 6.764 0 11.032-2.646 11.032-12.938V0h20.586v143.274c0 21.318-12.53 31.028-30.824 31.028-16.534 0-26.116-8.564-30.968-18.888"/><path fill="#0096D6" d="M90.432 152.668l16.764-9.94c4.424 7.222 10.162 12.534 20.322 12.534 8.548 0 14-4.27 14-10.17 0-7.08-5.602-9.588-15.056-13.712l-5.162-2.214c-14.904-6.348-24.808-14.31-24.808-31.11 0-15.49 11.798-27.284 30.246-27.284 13.138 0 22.588 4.568 29.38 16.526l-16.096 10.346c-3.544-6.352-7.38-8.858-13.284-8.858-6.044 0-9.876 3.836-9.876 8.858 0 6.196 3.84 8.702 12.694 12.536l5.162 2.21c17.544 7.526 27.444 15.194 27.444 32.434 0 18.588-14.608 28.76-34.244 28.76-19.194 0-31.592-9.148-37.636-21.116"/></svg><span>Node.js</span></div>
+        <div class="tech-item animate-on-scroll"><svg width="32" height="32" viewBox="0 0 256 254"><path fill="#2496ED" d="M236.842 117.68c8.12-3.892 15.976-10.076 15.976-22.568 0-16.504-14.4-23.812-33.208-23.812H184.29c.326-5.326.588-11.198.588-17.578 0-13.496-2.216-24.242-7.88-31.808C171.336 14.41 162.452 9.938 150.51 9.938c-21.38 0-26.198 24.938-28.584 40.054l-.736 4.636c-2.336 14.668-5.182 28.012-11.022 37.33-5.316 8.482-12.408 13.634-23.406 15.224v-3.942H0v150.164h86.762v-21.96c12.67 2.232 33.398 8.116 55.008 14.574 26.966 8.06 55.544 16.61 73.906 16.61 23.034 0 37.68-10.282 37.68-30.368 0-6.372-1.722-12.086-4.652-17.042 10.232-4.534 18.312-13.536 18.312-27.902 0-8.794-3.052-15.654-7.728-20.956 10.576-5.56 17.958-14.862 17.958-27.766 0-10.166-4.492-18.448-12.944-23.712a30.472 30.472 0 00-7.46-3.158z"/></svg><span>Docker</span></div>
     </div>
 </section>
 
-<!-- Contact -->
 <section class="contact" id="contact">
-    <div class="section-header animate-on-scroll">
-        <div class="section-tag"><i data-lucide="mail" style="width:14px;height:14px;"></i> تواصل</div>
-        <h2 class="section-title">ابدأ مشروعك <span style="color:var(--primary)">الآن</span></h2>
-        <p class="section-desc">نحن جاهزون لتحويل فكرتك إلى واقع رقمي مذهل</p>
-    </div>
+    <div class="section-header animate-on-scroll"><div class="section-tag"><i data-lucide="mail" style="width:14px;height:14px"></i> تواصل</div><h2 class="section-title">ابدأ مشروعك <span style="color:var(--primary)">الآن</span></h2></div>
     <div class="contact-grid">
         <div class="contact-info animate-on-scroll">
             <h2>لنتحدث عن <span>مشروعك</span></h2>
             <p>سواء كانت لديك فكرة واضحة أو تحتاج لاستشارة، فريقنا جاهز لمساعدتك في كل خطوة</p>
-            <div class="contact-item">
-                <div class="contact-item-icon"><i data-lucide="map-pin"></i></div>
-                <div class="contact-item-text">
-                    <strong>العنوان</strong>
-                    <span>الرياض، المملكة العربية السعودية</span>
-                </div>
-            </div>
-            <div class="contact-item">
-                <div class="contact-item-icon"><i data-lucide="phone"></i></div>
-                <div class="contact-item-text">
-                    <strong>الهاتف</strong>
-                    <span dir="ltr">+966 50 123 4567</span>
-                </div>
-            </div>
-            <div class="contact-item">
-                <div class="contact-item-icon"><i data-lucide="mail"></i></div>
-                <div class="contact-item-text">
-                    <strong>البريد الإلكتروني</strong>
-                    <span>info@msoft.dev</span>
-                </div>
-            </div>
-            <div class="contact-item">
-                <div class="contact-item-icon"><i data-lucide="clock"></i></div>
-                <div class="contact-item-text">
-                    <strong>ساعات العمل</strong>
-                    <span>الأحد - الخميس: 9ص - 6م</span>
-                </div>
-            </div>
+            <div class="contact-item"><div class="contact-item-icon"><i data-lucide="map-pin"></i></div><div class="contact-item-text"><strong>العنوان</strong><span>مصر - المنصورة</span></div></div>
+            <div class="contact-item"><div class="contact-item-icon whatsapp-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div class="contact-item-text"><strong>واتساب</strong><span dir="ltr">+20 15 05865466</span></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><i data-lucide="phone"></i></div><div class="contact-item-text"><strong>اتصال</strong><span dir="ltr">+20 15 05865466</span></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><i data-lucide="mail"></i></div><div class="contact-item-text"><strong>البريد الإلكتروني</strong><span>info@msoft.dev</span></div></div>
+            <div class="contact-item"><div class="contact-item-icon"><i data-lucide="clock"></i></div><div class="contact-item-text"><strong>ساعات العمل</strong><span>الأحد - الخميس: 9ص - 6م</span></div></div>
             <div class="contact-socials">
-                <a href="#"><i data-lucide="twitter" style="width:18px;height:18px;"></i></a>
-                <a href="#"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-                <a href="#"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a>
-                <a href="#"><i data-lucide="github" style="width:18px;height:18px;"></i></a>
+                <a href="https://wa.me/201505865466" target="_blank" class="whatsapp-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="#"><i data-lucide="twitter" style="width:18px;height:18px"></i></a>
+                <a href="#"><i data-lucide="instagram" style="width:18px;height:18px"></i></a>
+                <a href="#"><i data-lucide="github" style="width:18px;height:18px"></i></a>
             </div>
         </div>
         <div class="contact-form animate-on-scroll" id="contactForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>الاسم الكامل</label>
-                    <input type="text" placeholder="أدخل اسمك" required>
-                </div>
-                <div class="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input type="email" placeholder="example@email.com" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>رقم الهاتف</label>
-                    <input type="tel" placeholder="+966 5X XXX XXXX">
-                </div>
-                <div class="form-group">
-                    <label>نوع الخدمة</label>
-                    <select>
-                        <option>تطوير مواقع</option>
-                        <option>تطبيقات موبايل</option>
-                        <option>تصميم UI/UX</option>
-                        <option>ذكاء اصطناعي</option>
-                        <option>استشارة تقنية</option>
-                        <option>أخرى</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>تفاصيل المشروع</label>
-                <textarea placeholder="اخبرنا عن مشروعك بالتفصيل..."></textarea>
-            </div>
-            <button type="button" class="form-submit" onclick="submitForm()">
-                <i data-lucide="send" style="width:18px;height:18px;"></i>
-                إرسال الرسالة
-            </button>
+            <div class="form-row"><div class="form-group"><label>الاسم الكامل</label><input type="text" placeholder="أدخل اسمك" required></div><div class="form-group"><label>البريد الإلكتروني</label><input type="email" placeholder="example@email.com" required></div></div>
+            <div class="form-row"><div class="form-group"><label>رقم الهاتف</label><input type="tel" placeholder="+20 XXX XXX XXXX"></div><div class="form-group"><label>نوع الخدمة</label><select><option>تطوير مواقع</option><option>تطبيقات موبايل</option><option>تصميم UI/UX</option><option>ذكاء اصطناعي</option><option>استشارة تقنية</option><option>أخرى</option></select></div></div>
+            <div class="form-group"><label>تفاصيل المشروع</label><textarea placeholder="اخبرنا عن مشروعك بالتفصيل..."></textarea></div>
+            <button type="button" class="form-submit" onclick="submitForm()"><i data-lucide="send" style="width:18px;height:18px"></i>إرسال الرسالة</button>
             <div class="form-message" id="formMessage">✓ تم إرسال رسالتك بنجاح! سنتواصل معك قريباً</div>
         </div>
     </div>
 </section>
 
-<!-- Footer -->
 <footer class="footer">
     <div class="footer-grid">
-        <div class="footer-brand">
-            <a href="#home" class="nav-logo" style="text-decoration:none;margin-bottom:5px;">
-                <div class="logo-icon" style="width:42px;height:42px;font-size:17px;">M</div>
-                <div class="logo-text" style="color:#fff;font-size:20px;">M <span>Soft</span></div>
-            </a>
-            <p>شركة M Soft متخصصة في تطوير المواقع والتطبيقات بأحدث التقنيات. نصنع المستقبل الرقمي مع كل سطر كود.</p>
-        </div>
-        <div>
-            <h4>روابط سريعة</h4>
-            <ul class="footer-links">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#about">من نحن</a></li>
-                <li><a href="#services">خدماتنا</a></li>
-                <li><a href="#portfolio">أعمالنا</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4>خدماتنا</h4>
-            <ul class="footer-links">
-                <li><a href="#">تطوير المواقع</a></li>
-                <li><a href="#">تطبيقات الموبايل</a></li>
-                <li><a href="#">تصميم UI/UX</a></li>
-                <li><a href="#">أنظمة إدارة المحتوى</a></li>
-                <li><a href="#">الذكاء الاصطناعي</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4>تواصل معنا</h4>
-            <ul class="footer-links">
-                <li><a href="#">info@msoft.dev</a></li>
-                <li><a href="#" dir="ltr">+966 50 123 4567</a></li>
-                <li><a href="#">الرياض، السعودية</a></li>
-            </ul>
-        </div>
+        <div class="footer-brand"><a href="#home" class="nav-logo" style="text-decoration:none;margin-bottom:5px"><div class="logo-icon" style="width:42px;height:42px;font-size:17px">M</div><div class="logo-text" style="color:#fff;font-size:20px">M <span>Soft</span></div></a><p>شركة M Soft متخصصة في تطوير المواقع والتطبيقات بأحدث التقنيات. نصنع المستقبل الرقمي مع كل سطر كود.</p></div>
+        <div><h4>روابط سريعة</h4><ul class="footer-links"><li><a href="#home">الرئيسية</a></li><li><a href="#about">من نحن</a></li><li><a href="#services">خدماتنا</a></li><li><a href="#portfolio">أعمالنا</a></li><li><a href="#contact">تواصل معنا</a></li></ul></div>
+        <div><h4>خدماتنا</h4><ul class="footer-links"><li><a href="#">تطوير المواقع</a></li><li><a href="#">تطبيقات الموبايل</a></li><li><a href="#">تصميم UI/UX</a></li><li><a href="#">أنظمة إدارة المحتوى</a></li><li><a href="#">الذكاء الاصطناعي</a></li></ul></div>
+        <div><h4>تواصل معنا</h4><ul class="footer-links"><li><a href="https://wa.me/201505865466" dir="ltr">+20 15 05865466</a></li><li><a href="#">info@msoft.dev</a></li><li><a href="#">مصر - المنصورة</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-        <span>© 2025 M Soft. جميع الحقوق محفوظة</span>
-        <span>صُنع بـ ❤️ بواسطة معتصم محمود</span>
-    </div>
+    <div class="footer-bottom"><span>© 2025 M Soft. جميع الحقوق محفوظة</span><span>صُنع بـ ❤️ بواسطة معتصم محمود</span></div>
 </footer>
 
-<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <i data-lucide="arrow-up" style="width:22px;height:22px;"></i>
-</button>
+<div class="whatsapp-float">
+    <a href="https://wa.me/201505865466" target="_blank" aria-label="تواصل واتساب">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+</div>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i data-lucide="arrow-up" style="width:22px;height:22px"></i></button>
 
 <script>
-    lucide.createIcons();
+lucide.createIcons();
 
-    // Loader
-    window.addEventListener('load', () => {
-        setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1600);
-    });
+// Loader
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1600)});
 
-    // Cursor
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button, .service-card, .project-card, .tech-item').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-
-    // Particles
-    (function() {
-        const container = document.getElementById('particles');
-        const colors = ['rgba(45,91,255,0.3)', 'rgba(255,107,53,0.25)', 'rgba(0,201,167,0.25)', 'rgba(255,179,71,0.3)'];
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 5 + 2;
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.background = colors[Math.floor(Math.random() * colors.length)];
-            p.style.animationDuration = (Math.random() * 18 + 12) + 's';
-            p.style.animationDelay = (Math.random() * 10) + 's';
-            container.appendChild(p);
-        }
-    })();
-
-    // Navbar
-    const navbar = document.getElementById('navbar');
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
-        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
-    });
-
-    // Mobile Menu
-    document.getElementById('menuToggle').addEventListener('click', () => {
-        document.getElementById('mobileMenu').classList.add('open');
-    });
-    document.getElementById('mobileClose').addEventListener('click', closeMobile);
-    function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
-
-    // Scroll Animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => entry.target.classList.add('visible'), i * 80);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-    // Counter
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.querySelectorAll('.stat-num').forEach(counter => {
-                    const target = parseInt(counter.dataset.target);
-                    const step = target / 120;
-                    let current = 0;
-                    const timer = setInterval(() => {
-                        current += step;
-                        if (current >= target) { current = target; clearInterval(timer); }
-                        counter.textContent = Math.floor(current) + '+';
-                    }, 16);
-                });
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    const statsSection = document.querySelector('.stats');
-    if (statsSection) statsObserver.observe(statsSection);
-
-    // 3D Tilt
-    function add3DTilt(el, intensity = 10) {
-        el.addEventListener('mousemove', (e) => {
-            const r = el.getBoundingClientRect();
-            const x = (e.clientX - r.left) / r.width - 0.5;
-            const y = (e.clientY - r.top) / r.height - 0.5;
-            el.style.transform = `perspective(1000px) rotateX(${y * -intensity}deg) rotateY(${x * intensity}deg) scale3d(1.02,1.02,1.02)`;
-            el.style.transition = 'none';
-        });
-        el.addEventListener('mouseleave', () => {
-            el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
-            el.style.transition = 'transform 0.5s ease';
-        });
+// Code Rain
+(function(){
+    const c=document.getElementById('codeRain');
+    const s=['const app = new MSoft();','import { Router } from "react";','async function deploy() {}','export default App;','npm run build','git commit -m "deploy"','docker build -t msoft .','const server = express();','app.listen(3000);','module.exports = config;','<MSoftProvider>','useEffect(() => {}, []);','useState(false);','fetch("/api/data")','await db.connect();','router.get("/api")','res.json({ success });','console.log("🚀");','class Developer {}','new Project().start();'];
+    for(let i=0;i<15;i++){
+        const d=document.createElement('div');
+        d.className='code-rain-line';
+        d.textContent=s[Math.floor(Math.random()*s.length)];
+        d.style.left=Math.random()*100+'%';
+        d.style.animationDuration=(Math.random()*15+10)+'s';
+        d.style.animationDelay=(Math.random()*10)+'s';
+        d.style.fontSize=(Math.random()*4+10)+'px';
+        c.appendChild(d);
     }
-    add3DTilt(document.getElementById('aboutCard'), 6);
-    add3DTilt(document.getElementById('founderCard'), 8);
+})();
 
-    // Form
-    function submitForm() {
-        const form = document.getElementById('contactForm');
-        const inputs = form.querySelectorAll('input, textarea, select');
-        let valid = true;
-        inputs.forEach(input => {
-            if (input.required && !input.value.trim()) {
-                valid = false;
-                input.style.borderColor = 'var(--secondary)';
-                setTimeout(() => input.style.borderColor = '', 2000);
-            }
-        });
-        if (valid) {
-            document.getElementById('formMessage').classList.add('success');
-            inputs.forEach(i => i.value = '');
-            setTimeout(() => document.getElementById('formMessage').classList.remove('success'), 5000);
-        }
+// Cursor
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px'});
+document.querySelectorAll('a,button,.service-card,.project-card,.tech-item').forEach(el=>{el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'))});
+
+// Particles
+(function(){
+    const c=document.getElementById('particles');
+    const colors=['rgba(45,91,255,.3)','rgba(255,107,53,.25)','rgba(0,201,167,.25)','rgba(126,231,135,.25)'];
+    for(let i=0;i<20;i++){
+        const p=document.createElement('div');p.className='particle';
+        const sz=Math.random()*5+2;p.style.width=sz+'px';p.style.height=sz+'px';
+        p.style.left=Math.random()*100+'%';
+        p.style.background=colors[Math.floor(Math.random()*colors.length)];
+        p.style.animationDuration=(Math.random()*18+12)+'s';
+        p.style.animationDelay=(Math.random()*10)+'s';
+        c.appendChild(p);
     }
+})();
 
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', function(e) {
-            e.preventDefault();
-            const t = document.querySelector(this.getAttribute('href'));
-            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    });
+// Navbar
+const navbar=document.getElementById('navbar'),scrollTopBtn=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+    navbar.classList.toggle('scrolled',window.scrollY>50);
+    scrollTopBtn.classList.toggle('visible',window.scrollY>500);
+});
 
-    // Parallax
-    window.addEventListener('scroll', () => {
-        const s = window.scrollY;
-        const hero = document.querySelector('.hero-content');
-        if (hero && s < 800) {
-            hero.style.transform = `translateY(${s * 0.25}px)`;
-            hero.style.opacity = 1 - s / 700;
-        }
-    });
+// Mobile
+document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',closeMobile);
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open')}
+
+// Scroll Animations
+const obs=new IntersectionObserver(e=>{e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>en.target.classList.add('visible'),i*80);obs.unobserve(en.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.animate-on-scroll').forEach(el=>obs.observe(el));
+
+// Counter
+const statsObs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.querySelectorAll('.stat-num').forEach(c=>{const t=parseInt(c.dataset.target);const s=t/120;let cur=0;const tm=setInterval(()=>{cur+=s;if(cur>=t){cur=t;clearInterval(tm)}c.textContent=Math.floor(cur)+'+'},16)});statsObs.unobserve(en.target)}})},{threshold:.5});
+const statsSec=document.querySelector('.stats');if(statsSec)statsObs.observe(statsSec);
+
+// 3D Tilt
+function add3DTilt(el,int=10){
+    el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1000px) rotateX(${y*-int}deg) rotateY(${x*int}deg) scale3d(1.02,1.02,1.02)`;el.style.transition='none'});
+    el.addEventListener('mouseleave',()=>{el.style.transform='perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';el.style.transition='transform .5s ease'});
+}
+add3DTilt(document.getElementById('aboutCard'),6);
+add3DTilt(document.getElementById('founderCard'),8);
+
+// Form
+function submitForm(){
+    const f=document.getElementById('contactForm');const ins=f.querySelectorAll('input,textarea,select');
+    let v=true;ins.forEach(i=>{if(i.required&&!i.value.trim()){v=false;i.style.borderColor='var(--secondary)';setTimeout(()=>i.style.borderColor='',2000)}});
+    if(v){document.getElementById('formMessage').classList.add('success');ins.forEach(i=>i.value='');setTimeout(()=>document.getElementById('formMessage').classList.remove('success'),5000)}
+}
+
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// Parallax
+window.addEventListener('scroll',()=>{const s=window.scrollY;const h=document.querySelector('.hero-content');if(h&&s<800){h.style.transform=`translateY(${s*.25}px)`;h.style.opacity=1-s/700}});
 </script>
 </body>
 </html>
